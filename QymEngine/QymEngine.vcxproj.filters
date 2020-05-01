@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Camera">
+      <UniqueIdentifier>{f7c62a8b-2403-4cbb-b74b-d97b6d123710}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mesh">
+      <UniqueIdentifier>{bb0eff8e-f5cb-4492-8082-62a58cc167f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render">
+      <UniqueIdentifier>{4b53c055-ba72-40a9-a6fa-94cb805d3d5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{98eb3d7a-9c82-42cd-99ac-ee87f16fa00a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{7d8b83c4-bb8e-46f6-9ca0-b0ff88ce5057}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Texture">
+      <UniqueIdentifier>{49774514-ba38-445a-bda3-441c7aa80fd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{f5153ae5-8f44-4cb1-b5b9-1aa79e9487de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Log">
+      <UniqueIdentifier>{dc7640b9-fc8f-49c2-b208-e00d946c7f26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{1656b364-aec0-4938-bcc8-1e1b58b0c22d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{968e7883-5a3f-4b2d-8ef1-0b9f25a83100}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Camera\QymCamera.cpp">
+      <Filter>Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh\QymMesh.cpp">
+      <Filter>Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture\QymRenderTexture.cpp">
+      <Filter>Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture\QymTexture.cpp">
+      <Filter>Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader\QymShaderProgram.cpp">
+      <Filter>Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\QymGameObject.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\QymObjectBase.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\QymScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\QymMeshRenderer.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\QymMath.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture\QymImageAccessor.cpp">
+      <Filter>Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture\QymImageReader.cpp">
+      <Filter>Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\QymCharacterTools.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\QymEngineInstance.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Camera\QymCamera.h">
+      <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh\QymMesh.h">
+      <Filter>Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture\QymRenderTexture.h">
+      <Filter>Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture\QymTexture.h">
+      <Filter>Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader\QymShaderProgram.h">
+      <Filter>Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\QymGameObject.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\QymObjectBase.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\QymScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\QymMeshRenderer.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Log\QymLog.h">
+      <Filter>Log</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\QymMath.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture\QymImageAccessor.h">
+      <Filter>Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture\QymImageReader.h">
+      <Filter>Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\QymCharacterTools.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\QymCommonBase.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\QymEngineInstance.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\QymRenderCommon.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
