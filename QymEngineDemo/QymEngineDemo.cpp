@@ -8,6 +8,7 @@
 #include "Render/QymMeshRenderer.h"
 #include "Render/QymRenderCommon.h"
 #include "Scene/QymScene.h"
+#include "Utils/pathtools.h"
 
 using namespace QymEngine;
 
@@ -58,7 +59,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	QSM_MAKE_OBJECT(QymCamera, camera);
 	camera->SetProjM(vmath::ortho(-1, 1, -1, 1, -1, 1));
 
-	auto tex = QymTexture::LoadTexture("0.jpg");
+	auto tex = QymTexture::LoadTexture(Path_Join(Path_StripFilename(Path_GetExecutablePath()), "0.jpg"));
 
 	QSM_MAKE_OBJECT(QymShaderProgram, program, normal_shader_vs, normal_shader_fs);
 	QSM_MAKE_OBJECT(QymMeshRenderer, mr, program);

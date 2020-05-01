@@ -137,7 +137,9 @@
     <ClCompile Include="Texture\QymImageReader.cpp" />
     <ClCompile Include="Texture\QymRenderTexture.cpp" />
     <ClCompile Include="Texture\QymTexture.cpp" />
-    <ClCompile Include="Utils\QymCharacterTools.cpp" />
+    <ClCompile Include="Utils\CharacterTools.cpp" />
+    <ClCompile Include="Utils\pathtools.cpp" />
+    <ClCompile Include="Utils\StopWatch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera\QymCamera.h" />
@@ -156,7 +158,9 @@
     <ClInclude Include="Texture\QymImageReader.h" />
     <ClInclude Include="Texture\QymRenderTexture.h" />
     <ClInclude Include="Texture\QymTexture.h" />
-    <ClInclude Include="Utils\QymCharacterTools.h" />
+    <ClInclude Include="Utils\CharacterTools.h" />
+    <ClInclude Include="Utils\pathtools.h" />
+    <ClInclude Include="Utils\StopWatch.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

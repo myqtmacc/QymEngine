@@ -1,7 +1,7 @@
 #include "Texture/QymImageAccessor.h"
 #include <atlimage.h>
 #include "stdio.h"
-#include "Utils/QymCharacterTools.h"
+#include "Utils/CharacterTools.h"
 
 QymImageAccessor::QymImageAccessor(void)
 {

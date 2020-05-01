@@ -69,11 +69,17 @@
     <ClCompile Include="Texture\QymImageReader.cpp">
       <Filter>Texture</Filter>
     </ClCompile>
-    <ClCompile Include="Utils\QymCharacterTools.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
     <ClCompile Include="Common\QymEngineInstance.cpp">
       <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\CharacterTools.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\pathtools.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\StopWatch.cpp">
+      <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -116,9 +122,6 @@
     <ClInclude Include="Texture\QymImageReader.h">
       <Filter>Texture</Filter>
     </ClInclude>
-    <ClInclude Include="Utils\QymCharacterTools.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
     <ClInclude Include="Common\QymCommonBase.h">
       <Filter>Common</Filter>
     </ClInclude>
@@ -127,6 +130,15 @@
     </ClInclude>
     <ClInclude Include="Render\QymRenderCommon.h">
       <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\CharacterTools.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\pathtools.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\StopWatch.h">
+      <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

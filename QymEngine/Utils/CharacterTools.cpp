@@ -1,4 +1,4 @@
-#include "Utils/QymCharacterTools.h"
+#include "Utils/CharacterTools.h"
 
 std::wstring UTF8ToUnicode(const string& str)
 {
