@@ -37,3 +37,6 @@
 
 # temp
 *.tmp
+
+# design
+/Design/*
