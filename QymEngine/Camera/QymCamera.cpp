@@ -5,40 +5,33 @@
 #include "Log/QymLog.h"
 
 using namespace QymEngine;
+using namespace QymEngine::Math;
 
 QymCamera * QymCamera::m_pCurrentCam = NULL;
 
 QymCamera::QymCamera() :
-m_mView(mat4::identity()),
-m_mProj(mat4::identity()),
+m_mView(Identity<Matrix4x4f>()),
+m_mProj(Identity<Matrix4x4f>()),
 m_rViewport(Ratio2D(0.0f, 0.0f), Ratio2D(1.0f, 1.0f))
 {
-	m_mView = vmath::lookat(vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 0.0f, -1.0f), vec3(0.0f, 1.0f, 0.0f));
-	m_mProj = vmath::perspective(60.0f, 1.0f, -1.0f, -1000.0f);
-	//m_mProj = vmath::frustum(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, -1000.0f);
+	m_mView = LookAt(Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 0.0f, -1.0f), Vector3f(0.0f, 1.0f, 0.0f));
+	m_mProj = Perspective(60.0f, 1.0f, 1.0f, 1000.0f);
 }
 
-mat4 QymCamera::GetViewM() {
-	/*vec4 newEyePos4 = vEyePos * this->m_mGlobalModel;
-	vec4 newTargetPos4 = vTargetPos * this->m_mGlobalModel;
-	vec4 newUpDir4 = vUpDir * this->m_mGlobalModel;
+Matrix4x4f QymCamera::GetViewM() {
 
-	vec3 newEyePos3 = vec3(newEyePos4[0], newEyePos4[1], newEyePos4[2]);
-	vec3 newTargetPos3 = vec3(newTargetPos4[0], newTargetPos4[1], newTargetPos4[2]);
-	vec3 newUpDir3 = vec3(newUpDir4[0], newUpDir4[1], newUpDir4[2]);*/
+	Vector3f newEyePos3 = this->m_mGlobalModel * vEyePos;
+	Vector3f newTargetPos3 = this->m_mGlobalModel * vTargetPos;
+	Vector3f newUpDir3 = static_cast<Vector3f>(this->m_mGlobalModel * vUpDir) - newEyePos3;
 
-	vec3 newEyePos3 = this->m_mGlobalModel * vEyePos;
-	vec3 newTargetPos3 = this->m_mGlobalModel * vTargetPos;
-	vec3 newUpDir3 = this->m_mGlobalModel * vUpDir;
-
-	m_mView = vmath::lookat(newEyePos3, newTargetPos3, newUpDir3);
+	m_mView = LookAt(newEyePos3, newTargetPos3, newUpDir3);
 	return m_mView;
 }
 
 void QymCamera::RenderScene(const QymScene & _scene) {
 	this->ActivateCamera();
 
-	glPushAttrib(GL_ALL_ATTRIB_BITS);
+	//glPushAttrib(GL_ALL_ATTRIB_BITS);
 
 	if (!this->m_pRT)
 	{
@@ -92,7 +85,7 @@ void QymCamera::RenderScene(const QymScene & _scene) {
 		objs[i]->DrawGameObject();
 	}
 
-	glPopAttrib();
+	//glPopAttrib();
 }
 
 void QymCamera::RenderScene(const QymScene & _scene, const std::vector<GLenum> & drawBuffers) {
@@ -142,39 +135,39 @@ void QymCamera::RenderScene(const QymScene & _scene, const std::vector<GLenum> &
 bool QymCamera::FrustrumIntersected(QymGameObject & obj, E_INTERSECTION_DETECTION_MODE mode) {
 
 	bool valid = true;
-	mat4 viewm = this->GetViewM();
-	mat4 mvpm = this->m_mProj * viewm;
+	Matrix4x4f viewm = this->GetViewM();
+	Matrix4x4f mvpm = this->m_mProj * viewm;
 
-	vec4 v1, v2, v3, v4, v5, v6, v7, v8;
+	Vector4f v1, v2, v3, v4, v5, v6, v7, v8;
 
 	if (mode == E_INTERSECTION_DETECTION_MODE::AABB) {
 		QymAABB aabb = obj.GetAABB();
 
-		v1 = mvpm * vec4(aabb.GetMinX(), aabb.GetMinY(), aabb.GetMinZ(), 1.0f);
-		v2 = mvpm * vec4(aabb.GetMinX(), aabb.GetMinY(), aabb.GetMaxZ(), 1.0f);
-		v3 = mvpm * vec4(aabb.GetMinX(), aabb.GetMaxY(), aabb.GetMinZ(), 1.0f);
-		v4 = mvpm * vec4(aabb.GetMinX(), aabb.GetMaxY(), aabb.GetMaxZ(), 1.0f);
-		v5 = mvpm * vec4(aabb.GetMaxX(), aabb.GetMinY(), aabb.GetMinZ(), 1.0f);
-		v6 = mvpm * vec4(aabb.GetMaxX(), aabb.GetMinY(), aabb.GetMaxZ(), 1.0f);
-		v7 = mvpm * vec4(aabb.GetMaxX(), aabb.GetMaxY(), aabb.GetMinZ(), 1.0f);
-		v8 = mvpm * vec4(aabb.GetMaxX(), aabb.GetMaxY(), aabb.GetMaxZ(), 1.0f);
+		v1 = mvpm * Vector4f(aabb.GetMinX(), aabb.GetMinY(), aabb.GetMinZ(), 1.0f);
+		v2 = mvpm * Vector4f(aabb.GetMinX(), aabb.GetMinY(), aabb.GetMaxZ(), 1.0f);
+		v3 = mvpm * Vector4f(aabb.GetMinX(), aabb.GetMaxY(), aabb.GetMinZ(), 1.0f);
+		v4 = mvpm * Vector4f(aabb.GetMinX(), aabb.GetMaxY(), aabb.GetMaxZ(), 1.0f);
+		v5 = mvpm * Vector4f(aabb.GetMaxX(), aabb.GetMinY(), aabb.GetMinZ(), 1.0f);
+		v6 = mvpm * Vector4f(aabb.GetMaxX(), aabb.GetMinY(), aabb.GetMaxZ(), 1.0f);
+		v7 = mvpm * Vector4f(aabb.GetMaxX(), aabb.GetMaxY(), aabb.GetMinZ(), 1.0f);
+		v8 = mvpm * Vector4f(aabb.GetMaxX(), aabb.GetMaxY(), aabb.GetMaxZ(), 1.0f);
 	}
 	else if (mode == E_INTERSECTION_DETECTION_MODE::OBB)
 	{
 		QymOBB obb = obj.GetOBB();
 
-		v1 = mvpm * vec4(obb[0], 1.0f);
-		v2 = mvpm * vec4(obb[1], 1.0f);
-		v3 = mvpm * vec4(obb[2], 1.0f);
-		v4 = mvpm * vec4(obb[3], 1.0f);
-		v5 = mvpm * vec4(obb[4], 1.0f);
-		v6 = mvpm * vec4(obb[5], 1.0f);
-		v7 = mvpm * vec4(obb[6], 1.0f);
-		v8 = mvpm * vec4(obb[7], 1.0f);
+		v1 = mvpm * Vector4f(obb[0], 1.0f);
+		v2 = mvpm * Vector4f(obb[1], 1.0f);
+		v3 = mvpm * Vector4f(obb[2], 1.0f);
+		v4 = mvpm * Vector4f(obb[3], 1.0f);
+		v5 = mvpm * Vector4f(obb[4], 1.0f);
+		v6 = mvpm * Vector4f(obb[5], 1.0f);
+		v7 = mvpm * Vector4f(obb[6], 1.0f);
+		v8 = mvpm * Vector4f(obb[7], 1.0f);
 	}
 
-	//vec4 r = mvpm * vec4(0.0f, 0.0f, -50.0f, 1.0f);
-	//vec4 r1 = mvpm * vec4(85.0f, 0.0f, -50.0f, 1.0f);
+	//Vector4f r = mvpm * Vector4f(0.0f, 0.0f, -50.0f, 1.0f);
+	//Vector4f r1 = mvpm * Vector4f(85.0f, 0.0f, -50.0f, 1.0f);
 	for (int i = 0; i < 3; i++) {
 
 		bool b1 = false, b2 = false;

@@ -31,6 +31,9 @@
     <Filter Include="Utils">
       <UniqueIdentifier>{968e7883-5a3f-4b2d-8ef1-0b9f25a83100}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader\Builtin">
+      <UniqueIdentifier>{ae03fe97-f74c-4ba2-a5a8-ac74cb134c66}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera\QymCamera.cpp">
@@ -79,6 +82,9 @@
       <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="Utils\StopWatch.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\IOTools.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>
@@ -140,5 +146,31 @@
     <ClInclude Include="Utils\StopWatch.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Utils\IOTools.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shader\Builtin\look_up_table.ps">
+      <Filter>Shader\Builtin</Filter>
+    </None>
+    <None Include="Shader\Builtin\normal.vs">
+      <Filter>Shader\Builtin</Filter>
+    </None>
+    <None Include="Shader\Builtin\pure_color.ps">
+      <Filter>Shader\Builtin</Filter>
+    </None>
+    <None Include="Shader\Builtin\simplest.vs">
+      <Filter>Shader\Builtin</Filter>
+    </None>
+    <None Include="Shader\Builtin\texure.ps">
+      <Filter>Shader\Builtin</Filter>
+    </None>
+    <None Include="Shader\Builtin\uv_map.vs">
+      <Filter>Shader\Builtin</Filter>
+    </None>
+    <None Include="Shader\Builtin\warp.ps">
+      <Filter>Shader\Builtin</Filter>
+    </None>
   </ItemGroup>
 </Project>

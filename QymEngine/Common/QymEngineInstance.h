@@ -8,6 +8,7 @@
 
 // 使用方法见QymEngineDemo项目
 namespace QymEngine {
+
 	class QymEngineInstance {
 	public:
 		static bool Initialize(HWND hWnd, int width, int height);
@@ -16,13 +17,13 @@ namespace QymEngine {
 		static void SetVSync(bool enable);
 		static void Present();
 
-		static Size2D Resolution();
+		static Math::Size2D Resolution();
 
 	private:
 		static HWND m_hWnd;
 		static HDC m_hDC;
 		static HGLRC m_hRC;
 
-		static Size2D m_Resolution;
+		static Math::Size2D m_Resolution;
 	};
 }

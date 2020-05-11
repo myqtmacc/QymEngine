@@ -7,14 +7,12 @@
 
 namespace QymEngine {
 
-	using namespace vmath;
-
 	struct VertexAttribs
 	{
-		std::vector<vec3> position;
-		std::vector<vec4> color;
-		std::vector<vec2> uv0;
-		std::vector<vec2> uv1;
+		std::vector<Math::Vector3f> position;
+		std::vector<Math::Vector4f> color;
+		std::vector<Math::Vector2f> uv0;
+		std::vector<Math::Vector2f> uv1;
 	};
 
 	struct SpherePatchParams
@@ -47,8 +45,8 @@ namespace QymEngine {
 		size_t VertexCount() const { return this->m_iVertexCount; }
 		size_t IndexCount() const { return this->m_iIndexCount; }
 
-		QymAABB BuildAABB();
-		QymOBB BuildOBB(const mat4 & transform);
+		Math::QymAABB BuildAABB();
+		Math::QymOBB BuildOBB(const Math::Matrix4x4f & transform);
 
 	public:
 		static std::shared_ptr<QymMesh> BuildGlobe(const float uScale = 1.0f, const float vScale = 1.0f);
@@ -58,10 +56,10 @@ namespace QymEngine {
 		static std::shared_ptr<QymMesh> BuildTesselledQuad(const int horizontal, const int vertical);
 
 	private:
-		std::vector<vec3> m_vfPosition;
-		std::vector<vec4> m_vfColor;
-		std::vector<vec2> m_vfUV0;
-		std::vector<vec2> m_vfUV1;
+		std::vector<Math::Vector3f> m_vfPosition;
+		std::vector<Math::Vector4f> m_vfColor;
+		std::vector<Math::Vector2f> m_vfUV0;
+		std::vector<Math::Vector2f> m_vfUV1;
 
 		std::vector<GLushort> m_vsIndices;
 

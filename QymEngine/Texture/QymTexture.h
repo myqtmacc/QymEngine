@@ -1,13 +1,12 @@
 #pragma once
 
-#include "windows.h"
-
-#include "vmath.h"
 #include <memory>
 #include <string>
 #include "GL/glew.h"
 
-using namespace vmath;
+#include "Math/QymMath.h"
+#include "windows.h"
+
 
 namespace QymEngine {
 
@@ -17,8 +16,8 @@ namespace QymEngine {
 		QymTexture();
 		QymTexture(const QymTexture &) = delete;
 		QymTexture & operator = (const QymTexture &) = delete;
-		QymTexture(GLuint texID, mat4 mat = mat4::identity());
-		QymTexture(GLint width, GLint height, const GLubyte * buffer = nullptr, GLenum format = GL_RGBA, mat4 mat = mat4::identity());
+		QymTexture(GLuint texID, Math::Matrix4x4f mat = Math::Identity<Math::Matrix4x4f>());
+		QymTexture(GLint width, GLint height, const GLubyte * buffer = nullptr, GLenum format = GL_RGBA, Math::Matrix4x4f mat = Math::Identity<Math::Matrix4x4f>());
 		virtual ~QymTexture();
 
 		GLint GetWidth() const { return  this->m_iWidth; }
@@ -29,8 +28,8 @@ namespace QymEngine {
 
 		virtual GLuint GetTexID() { return this->m_iTex; }
 
-		mat4 GetTexm() const { return this->m_Texm; }
-		void SetTexm(const mat4 & mat) { this->m_Texm = mat; }
+		Math::Matrix4x4f GetTexm() const { return this->m_Texm; }
+		void SetTexm(const Math::Matrix4x4f & mat) { this->m_Texm = mat; }
 
 		static void SaveTextureImage(GLuint tex, const wchar_t *filename, GLenum textureType);
 		static int SaveImage(int widthImg, int heightImg, BYTE * pBuffer, const wchar_t * filePath);
@@ -45,7 +44,7 @@ namespace QymEngine {
 
 		bool m_bIsValid;
 
-		mat4 m_Texm;
+		Math::Matrix4x4f m_Texm;
 
 		void _initTexture(GLint width, GLint height, GLenum format);
 		void _destroyTexture();

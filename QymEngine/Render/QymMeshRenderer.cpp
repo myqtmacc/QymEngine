@@ -4,21 +4,21 @@
 #include "Camera/QymCamera.h"
 #include "Log/QymLog.h"
 
-
 using namespace QymEngine;
+using namespace QymEngine::Math;
 
 QymMeshRenderer::QymMeshRenderer(const std::shared_ptr<QymShaderProgram> & _program) :
 m_pProgram(_program)
 {
 }
 
-void QymMeshRenderer::DrawMesh(const QymMesh & _mesh, const mat4 & _modelm) {
+void QymMeshRenderer::DrawMesh(const QymMesh & _mesh, const Matrix4x4f & _modelm) {
 	QymCamera * _camera = QymCamera::GetCurrentCamera();
 
-	mat4 viewm = _camera->GetViewM();
-	mat4 projm = _camera->GetProjM();
-	mat4 mvpm = projm * viewm * _modelm;
-	//mat4 mvpm = vmath::ortho(-10, 10, -10, 10, 0, -1000) * viewm * _modelm;
+	Matrix4x4f viewm = _camera->GetViewM();
+	Matrix4x4f projm = _camera->GetProjM();
+	Matrix4x4f mvpm = projm * viewm * _modelm;
+	//Matrix4x4f mvpm = vmath::ortho(-10, 10, -10, 10, 0, -1000) * viewm * _modelm;
 
 	unsigned int progID = this->m_pProgram->GetProgramID();
 	GLuint vaoID = _mesh.GetVAO();
@@ -29,12 +29,12 @@ void QymMeshRenderer::DrawMesh(const QymMesh & _mesh, const mat4 & _modelm) {
 
 	this->_bindTextures();
 
-	// mat4类有隐式转换操作符
-	glUniformMatrix4fv(this->m_pProgram->m_uModel, 1, GL_FALSE, _modelm);
-	glUniformMatrix4fv(this->m_pProgram->m_uView, 1, GL_FALSE, viewm);
-	glUniformMatrix4fv(this->m_pProgram->m_uProjection, 1, GL_FALSE, projm);
-	glUniformMatrix4fv(this->m_pProgram->m_uMvp, 1, GL_FALSE, mvpm);
-	//glUniformMatrix4fv(this->m_pProgram->m_uTexm, 1, GL_FALSE, vmath::mat4::identity());
+	// Matrix4x4f类有隐式转换操作符
+	glUniformMatrix4fv(this->m_pProgram->m_uModel, 1, GL_FALSE, ToPtr(_modelm));
+	glUniformMatrix4fv(this->m_pProgram->m_uView, 1, GL_FALSE, ToPtr(viewm));
+	glUniformMatrix4fv(this->m_pProgram->m_uProjection, 1, GL_FALSE, ToPtr(projm));
+	glUniformMatrix4fv(this->m_pProgram->m_uMvp, 1, GL_FALSE, ToPtr(mvpm));
+	//glUniformMatrix4fv(this->m_pProgram->m_uTexm, 1, GL_FALSE, vmath::Matrix4x4f::identity());
 
 	glBindVertexArray(vaoID);
 	glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_SHORT, NULL);
@@ -61,7 +61,7 @@ void QymMeshRenderer::_bindTextures() {
 
 			int uTexm = glGetUniformLocation(progID, name.c_str());
 			if (uTexm >= 0) {
-				glUniformMatrix4fv(uTexm, 1, GL_FALSE, item.second->GetTexm());
+				glUniformMatrix4fv(uTexm, 1, GL_FALSE, ToPtr(item.second->GetTexm()));
 			}
 		}
 	}

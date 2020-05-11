@@ -3,6 +3,7 @@
 #include "Render/QymRenderCommon.h"
 
 using namespace QymEngine;
+using namespace QymEngine::Math;
 
 template< typename _attrib_type_ >
 void PackVertexAttribute(std::vector<GLubyte> & packed, const std::vector<_attrib_type_> & attrib,
@@ -249,7 +250,7 @@ QymAABB QymMesh::BuildAABB() {
 		return QymAABB();
 	}
 
-	vec3 minV = this->m_vfPosition[0], maxV = this->m_vfPosition[0];
+	Vector3f minV = this->m_vfPosition[0], maxV = this->m_vfPosition[0];
 	for (size_t i = 0; i < this->m_vfPosition.size(); i++) {
 		minV[0] = min(minV[0], this->m_vfPosition[i][0]);
 		minV[1] = min(minV[1], this->m_vfPosition[i][1]);
@@ -262,17 +263,17 @@ QymAABB QymMesh::BuildAABB() {
 	return QymAABB(minV, maxV);
 }
 
-QymOBB QymMesh::BuildOBB(const mat4& transform)
+QymOBB QymMesh::BuildOBB(const Matrix4x4f& transform)
 {
 	if (this->m_vfPosition.empty()) {
 		return QymOBB();
 	}
 
-	mat4 inverse = transform.transpose();
+	Matrix4x4f inverse = Transpose(transform);
 
-	vec3 minV = inverse * this->m_vfPosition[0], maxV = inverse * this->m_vfPosition[0];
+	Vector3f minV = inverse * this->m_vfPosition[0], maxV = inverse * this->m_vfPosition[0];
 	for (size_t i = 0; i < this->m_vfPosition.size(); i++) {
-		vec3 pos = inverse * this->m_vfPosition[i];
+		Vector3f pos = inverse * this->m_vfPosition[i];
 		minV[0] = min(minV[0], pos[0]);
 		minV[1] = min(minV[1], pos[1]);
 		minV[2] = min(minV[2], pos[2]);
@@ -281,15 +282,15 @@ QymOBB QymMesh::BuildOBB(const mat4& transform)
 		maxV[2] = max(maxV[2], pos[2]);
 	}
 
-	vec3 pts[8] = {
-		transform * vec3(minV[0], minV[1], minV[2]),
-		transform * vec3(minV[0], minV[1], maxV[2]),
-		transform * vec3(minV[0], maxV[1], minV[2]),
-		transform * vec3(minV[0], maxV[1], maxV[2]),
-		transform * vec3(maxV[0], minV[1], minV[2]),
-		transform * vec3(maxV[0], minV[1], maxV[2]),
-		transform * vec3(maxV[0], maxV[1], minV[2]),
-		transform * vec3(maxV[0], maxV[1], maxV[2]),
+	Vector3f pts[8] = {
+		transform * Vector3f(minV[0], minV[1], minV[2]),
+		transform * Vector3f(minV[0], minV[1], maxV[2]),
+		transform * Vector3f(minV[0], maxV[1], minV[2]),
+		transform * Vector3f(minV[0], maxV[1], maxV[2]),
+		transform * Vector3f(maxV[0], minV[1], minV[2]),
+		transform * Vector3f(maxV[0], minV[1], maxV[2]),
+		transform * Vector3f(maxV[0], maxV[1], minV[2]),
+		transform * Vector3f(maxV[0], maxV[1], maxV[2]),
 	};
 	return QymOBB(pts);
 }
@@ -298,17 +299,17 @@ std::shared_ptr<QymMesh> QymMesh::BuildQuad() {
 
 	VertexAttribs attribs;
 	attribs.position = {
-		vec3(-1.0f, -1.0f, 0.0f),
-		vec3(1.0f, -1.0f, 0.0f),
-		vec3(1.0f, 1.0f, 0.0f),
-		vec3(-1.0f, 1.0f, 0.0f)
+		Vector3f(-1.0f, -1.0f, 0.0f),
+		Vector3f(1.0f, -1.0f, 0.0f),
+		Vector3f(1.0f, 1.0f, 0.0f),
+		Vector3f(-1.0f, 1.0f, 0.0f)
 	};
 
 	attribs.uv0 = {
-		vec2(0.0f, 0.0f),
-		vec2(1.0f, 0.0f),
-		vec2(1.0f, 1.0f),
-		vec2(0.0f, 1.0f)
+		Vector2f(0.0f, 0.0f),
+		Vector2f(1.0f, 0.0f),
+		Vector2f(1.0f, 1.0f),
+		Vector2f(0.0f, 1.0f)
 	};
 
 	IndexArray indices = { 
@@ -335,19 +336,19 @@ std::shared_ptr<QymMesh> QymMesh::BuildQuadPatch(SpherePatchParams params) {
 
 	VertexAttribs attribs;
 	attribs.position = {
-		vec3(startX, startY, -1.0f),
-		vec3(endX, startY, -1.0f),
-		vec3(endX, endY, -1.0f),
-		vec3(startX, endY, -1.0f)
+		Vector3f(startX, startY, -1.0f),
+		Vector3f(endX, startY, -1.0f),
+		Vector3f(endX, endY, -1.0f),
+		Vector3f(startX, endY, -1.0f)
 	};
 
 	float paddingX = 1.0f / 480.0f;
 
 	attribs.uv0 = {
-		vec2(0.0f, 0.0f),
-		vec2(1.0f, 0.0f),
-		vec2(1.0f, 1.0f),
-		vec2(0.0f, 1.0f)
+		Vector2f(0.0f, 0.0f),
+		Vector2f(1.0f, 0.0f),
+		Vector2f(1.0f, 1.0f),
+		Vector2f(0.0f, 1.0f)
 	};
 
 	IndexArray indices = {

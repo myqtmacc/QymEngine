@@ -1,16 +1,14 @@
 #pragma once
 
-#include "vmath.h"
 #include <map>
 #include <memory>
 #include <GL/glew.h>
 #include "Mesh/QymMesh.h"
 #include "Texture/QymTexture.h"
 #include "Shader/QymShaderProgram.h"
+#include "Math/QymMath.h"
 
 namespace QymEngine {
-
-	using namespace vmath;
 
 	class QymMeshRenderer
 	{
@@ -36,7 +34,7 @@ namespace QymEngine {
 		void SetTextureMap(const std::map<int, std::shared_ptr<QymTexture> > & _texs) { this->m_pTexList = _texs; }
 		void ClearTextureMap() { this->m_pTexList.clear(); }
 
-		void DrawMesh(const QymMesh & _mesh, const mat4 & _modelm);
+		void DrawMesh(const QymMesh & _mesh, const Math::Matrix4x4f & _modelm);
 
 	private:
 		std::shared_ptr<QymShaderProgram> m_pProgram;

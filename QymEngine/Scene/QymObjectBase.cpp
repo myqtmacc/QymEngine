@@ -1,9 +1,10 @@
 #include "Scene/QymObjectBase.h"
 
 using namespace QymEngine;
+using namespace QymEngine::Math;
 
 QymObjectBase::QymObjectBase() :
-m_mLocalModel(mat4::identity())
+m_mLocalModel(Identity<Matrix4x4f>())
 {
 	this->_updateGlobalM();
 }
@@ -12,7 +13,7 @@ void QymObjectBase::UpdateTransform() {
 	this->_updateGlobalM();
 }
 
-void QymObjectBase::SetLocalModelM(const mat4 & _local) {
+void QymObjectBase::SetLocalModelM(const Matrix4x4f & _local) {
 	this->m_mLocalModel = _local;
 	this->_updateGlobalM();
 }

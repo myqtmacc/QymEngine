@@ -20,11 +20,13 @@ HWND hWnd;
 WCHAR szTitle[MAX_LOADSTRING];                  // 标题栏文本
 WCHAR szWindowClass[MAX_LOADSTRING];            // 主窗口类名
 
-// 此代码模块中包含的函数的前向声明:
+// 此代码模块中包含的函数的前向声明: 
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
-LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
+LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);  
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
+
+Math::Vector3f g_CameraPos(0, 0, -2);
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -57,11 +59,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	QymEngineInstance::SetVSync(true);
 
 	QSM_MAKE_OBJECT(QymCamera, camera);
-	camera->SetProjM(vmath::ortho(-1, 1, -1, 1, -1, 1));
+	auto proj = Math::Perspective(60, 1.5f, 0.1f, 100.0f);
+	camera->SetProjM(proj);
 
-	auto tex = QymTexture::LoadTexture(Path_Join(Path_StripFilename(Path_GetExecutablePath()), "0.jpg"));
+	auto tex = QymTexture::LoadTexture(Path_Join(Path_StripFilename(Path_GetExecutablePath()), RESOURCE_TEXTURE_PATH, "0.jpg"));
 
-	QSM_MAKE_OBJECT(QymShaderProgram, program, normal_shader_vs, normal_shader_fs);
+	QSM_MAKE_OBJECT(QymShaderProgram, program, normal_shader_vs, normal_shader_fs, 1);
 	QSM_MAKE_OBJECT(QymMeshRenderer, mr, program);
 	mr->AddTexture(0, tex);
 
@@ -84,6 +87,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             DispatchMessage(&msg);
         }
 
+		camera->SetLocalModelM(Math::Translate(g_CameraPos));
 		camera->RenderScene(*scene);
 		QymEngineInstance::Present();
     }
@@ -180,6 +184,23 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             }
         }
         break;
+	case WM_KEYDOWN:
+		switch (wParam)
+		{
+		case VK_UP:
+			g_CameraPos[2] -= 0.1f;
+			break;
+		case VK_DOWN:
+			g_CameraPos[2] += 0.1f;
+			break;
+		case VK_LEFT:
+			g_CameraPos[0] -= 0.1f;
+			break;
+		case VK_RIGHT:
+			g_CameraPos[0] += 0.1f;
+			break;
+		}
+		break;
     case WM_PAINT:
         {
             PAINTSTRUCT ps;

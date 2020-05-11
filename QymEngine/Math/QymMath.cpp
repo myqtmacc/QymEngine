@@ -1,22 +1,22 @@
 #include "QymMath.h"
 
-using namespace QymEngine;
+using namespace QymEngine::Math;
 
-vec3 QymIntersection::PlaneRayIntersection(const QymPlane & plane, const QymRay & ray) {
-	vec3 origin(0.0f, 0.0f, 0.0f);
-	float d = -vmath::dot(plane.m_vNormal, (plane.m_vPoint - origin));
-	float rl = -vmath::dot(plane.m_vNormal, ray.m_vDirection);
+Vector3f QymIntersection::PlaneRayIntersection(const QymPlane & plane, const QymRay & ray) {
+	Vector3f origin(0.0f, 0.0f, 0.0f);
+	float d = -glm::dot(plane.m_vNormal, (plane.m_vPoint - origin));
+	float rl = -glm::dot(plane.m_vNormal, ray.m_vDirection);
 
 	float t = d / rl;
 
-	vec3 r = ray.GetPoint(t);
+	Vector3f r = ray.GetPoint(t);
 	return r;
 }
 
 
 int QymIntersection::PlaneSphereIntersection(const QymPlane & plane, const QymSphere & sphere) {
-	float ds = vmath::dot(plane.m_vNormal, sphere.m_vCenter);
-	float dp = vmath::dot(plane.m_vNormal, plane.m_vPoint);
+	float ds = glm::dot(plane.m_vNormal, sphere.m_vCenter);
+	float dp = glm::dot(plane.m_vNormal, plane.m_vPoint);
 	if ((ds - dp) >= sphere.m_fRadius) {
 		return 1;
 	}
@@ -29,9 +29,9 @@ int QymIntersection::PlaneSphereIntersection(const QymPlane & plane, const QymSp
 
 int QymIntersection::PlaneAABBIntersection(const QymPlane & plane, const QymAABB & aabb) {
 	float minD, maxD;
-	const vec3 & n = plane.m_vNormal;
-	const vec3 & min = aabb.m_vMin;
-	const vec3 & max = aabb.m_vMax;
+	const Vector3f & n = plane.m_vNormal;
+	const Vector3f & min = aabb.m_vMin;
+	const Vector3f & max = aabb.m_vMax;
 	if (n[0] > 0.0f) {
 		minD = n[0] * min[0];
 		maxD = n[0] * max[0];
@@ -59,7 +59,7 @@ int QymIntersection::PlaneAABBIntersection(const QymPlane & plane, const QymAABB
 		maxD = n[2] * min[2];
 	}
 
-	float d = vmath::dot(plane.m_vNormal, plane.m_vPoint);
+	float d = glm::dot(plane.m_vNormal, plane.m_vPoint);
 	if (minD >= d) {
 		return 1;
 	}

@@ -19,16 +19,19 @@ namespace QymEngine {
 		friend class QymMeshRenderer;
 
 	public:
-		QymShaderProgram() = delete;
 		QymShaderProgram(const QymShaderProgram &) = delete;
 		QymShaderProgram(const char * vertexStr, const char * fragmentSrc);
+		QymShaderProgram(const std::string & vs_path, const std::string & fs_path, int);
 		~QymShaderProgram();
 
 		unsigned int GetProgramID() const { return this->m_uProgram; }
 
 		int GetUniformLocation(const char * uniformName);
 
+		static std::string LoadShaderFromFile(const std::string & path);
+
 	private:
+		QymShaderProgram();
 
 		// These will always be > 0 after a build, any errors will abort()
 		unsigned int m_uProgram;

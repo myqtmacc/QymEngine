@@ -4,19 +4,20 @@
 #include "Texture/QymImageReader.h"
 
 using namespace QymEngine;
+using namespace QymEngine::Math;
 
 QymTexture::QymTexture() :
 m_iTex(0),
 m_iWidth(0),
 m_iHeight(0),
 m_bExternal(false),
-m_Texm(mat4::identity()),
+m_Texm(Identity<Matrix4x4f>()),
 m_bIsValid(false)
 {
 	//this->_initTexture(512, 512, GL_RGBA);
 }
 
-QymTexture::QymTexture(GLuint texID, mat4 mat) :
+QymTexture::QymTexture(GLuint texID, Matrix4x4f mat) :
 m_iTex(texID),
 m_iWidth(0),
 m_iHeight(0),
@@ -37,7 +38,7 @@ m_bIsValid(false)
 	}
 }
 
-QymTexture::QymTexture(GLint width, GLint height, const GLubyte * buffer, GLenum format, mat4 mat) :
+QymTexture::QymTexture(GLint width, GLint height, const GLubyte * buffer, GLenum format, Matrix4x4f mat) :
 m_iTex(0),
 m_iWidth(0),
 m_iHeight(0),

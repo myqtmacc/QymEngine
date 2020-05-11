@@ -8,8 +8,6 @@
 
 namespace QymEngine {
 
-	using namespace vmath;
-
 	class QymGameObject : public QymObjectBase {
 
 		QSM_OBJECT_PTR(QymMeshRenderer);
@@ -19,7 +17,7 @@ namespace QymEngine {
 		QymGameObject();
 		QymGameObject(const PQymMesh & _mesh);
 		QymGameObject(const PQymMesh & _mesh, const PQymMeshRenderer & _renderer);
-		QymGameObject(const PQymMesh & _mesh, const PQymMeshRenderer & _renderer, const mat4 & obbTransform);
+		QymGameObject(const PQymMesh & _mesh, const PQymMeshRenderer & _renderer, const Math::Matrix4x4f & obbTransform);
 		~QymGameObject() = default;
 
 		void DrawGameObject();
@@ -29,16 +27,16 @@ namespace QymEngine {
 		void SetMesh(const PQymMesh & _mesh) { this->m_pMesh = _mesh; }
 		PQymMesh GetMesh() const { return this->m_pMesh; }
 
-		QymAABB GetAABB() const { return this->m_AABB; }
-		QymOBB GetOBB() const { return this->m_OBB; }
+		Math::QymAABB GetAABB() const { return this->m_AABB; }
+		Math::QymOBB GetOBB() const { return this->m_OBB; }
 
 	private:
 
 		PQymMesh m_pMesh;
 		PQymMeshRenderer m_pMeshRenderer;
 
-		QymAABB m_AABB;
-		mat4 m_OBBTransform;
-		QymOBB m_OBB;
+		Math::QymAABB m_AABB;
+		Math::Matrix4x4f m_OBBTransform;
+		Math::QymOBB m_OBB;
 	};
 };

@@ -1,16 +1,26 @@
 #include "Shader/QymShaderProgram.h"
 #include "Render/QymRenderCommon.h"
+#include "Utils/pathtools.h"
+#include "Utils/IOTools.h"
 
 using namespace QymEngine;
 
+QymShaderProgram::QymShaderProgram() :
+	m_uProgram(0),
+	m_uVertexShader(0),
+	m_uFragmentShader(0),
+	m_uMvp(-1),
+	m_uModel(-1),
+	m_uView(-1),
+	m_uProjection(-1),
+	m_uColor(-1),
+	m_uTexm(-1),
+	m_uTexm2(-1)
+{
+}
+
 QymShaderProgram::QymShaderProgram(const char * vertexStr, const char * fragmentSrc) :
-m_uMvp(-1),
-m_uModel(-1),
-m_uView(-1),
-m_uProjection(-1),
-m_uColor(-1),
-m_uTexm(-1),
-m_uTexm2(-1)
+	QymShaderProgram()
 {
 	std::string errorMsg;
 	if (!this->_buildProgram(vertexStr, fragmentSrc, errorMsg)) {
@@ -18,8 +28,31 @@ m_uTexm2(-1)
 	}
 }
 
+QymShaderProgram::QymShaderProgram(const std::string & vs_path, const std::string & fs_path, int) :
+	QymShaderProgram()
+{
+	std::string vertexStr = LoadShaderFromFile(vs_path);
+	std::string fragmentSrc = LoadShaderFromFile(fs_path);
+
+	std::string errorMsg;
+	if (!this->_buildProgram(vertexStr.c_str(), fragmentSrc.c_str(), errorMsg)) {
+		throw QymShaderFailedException(errorMsg);
+	}
+}
+
 QymShaderProgram::~QymShaderProgram() {
 	this->_deleteProgram();
+}
+
+std::string QymShaderProgram::LoadShaderFromFile(const std::string & path)
+{
+	std::string fullPath = Path_Join(Path_StripFilename(Path_GetExecutablePath()), RESOURCE_SHADER_PATH, path);
+
+	std::ifstream t(fullPath);
+	std::string str((std::istreambuf_iterator<char>(t)),
+		std::istreambuf_iterator<char>());
+
+	return str;
 }
 
 bool QymShaderProgram::_compileShader(GLenum shaderType, const GLuint shader, const char * src, std::string &err)

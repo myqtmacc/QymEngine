@@ -3,6 +3,7 @@
 #include <GL/wglew.h>
 
 using namespace QymEngine;
+using namespace QymEngine::Math;
 
 HWND QymEngineInstance::m_hWnd = nullptr;
 HDC QymEngineInstance::m_hDC = nullptr;
