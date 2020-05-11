@@ -1,7 +1,9 @@
-#include "Texture/QymTexture.h"
+#include "Windows.h"
 #include <atlimage.h>
-#include "Texture/QymImageAccessor.h"
-#include "Texture/QymImageReader.h"
+#include "Texture/QymTexture.h"
+
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
 
 using namespace QymEngine;
 using namespace QymEngine::Math;
@@ -189,28 +191,12 @@ std::shared_ptr<QymTexture> QymTexture::LoadTexture(const std::string& path)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-	QymImageReader *pTextureImage = new QymImageReader();
-	if (pTextureImage->LoadByRGBA(path.c_str()))
+	int texWidth, texHeight, texChannels;
+	stbi_uc* pixels = stbi_load(path.c_str(), &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
+
+	if (pixels)
 	{
-		int sizeInByte;
-		if (pTextureImage->getSizeInByte(sizeInByte))
-		{
-			int width = pTextureImage->getWidth();
-			int height = pTextureImage->getHeight();
-
-			unsigned char *imgData = new unsigned char[sizeInByte];
-			unsigned char *imgDataFlip = new unsigned char[sizeInByte];
-			pTextureImage->getImageData(imgData);
-
-			int stride = sizeInByte / height;
-			for (int i = 0; i < height; i++) {
-				memcpy(imgDataFlip + i * stride, imgData + (height - i - 1) * stride, stride);
-			}
-
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imgDataFlip);
-			delete[] imgData;
-			delete[] imgDataFlip;
-		}
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texWidth, texHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
 	}
 	else{
 		GLubyte temp[4 * 4];
@@ -222,7 +208,8 @@ std::shared_ptr<QymTexture> QymTexture::LoadTexture(const std::string& path)
 		glTexImage2D(GL_TEXTURE_2D, 0, 3, 2, 2, 0, GL_RGBA, GL_UNSIGNED_BYTE, temp);
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
-	delete pTextureImage;
+
+	stbi_image_free(pixels);
 
 	return std::make_shared<QymTexture>(t_tex);
 }

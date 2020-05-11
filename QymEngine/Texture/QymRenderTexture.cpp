@@ -1,5 +1,4 @@
 #include "Texture/QymRenderTexture.h"
-#include "windows.h"
 
 using namespace QymEngine;
 

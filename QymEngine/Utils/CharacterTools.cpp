@@ -1,6 +1,6 @@
 #include "Utils/CharacterTools.h"
 
-std::wstring UTF8ToUnicode(const string& str)
+std::wstring UTF8ToUnicode(const std::string& str)
 {
 	size_t len = 0;
 	len = str.length();
@@ -19,13 +19,13 @@ std::wstring UTF8ToUnicode(const string& str)
 		-1,
 		(LPWSTR)pUnicode,
 		unicodeLen);
-	wstring rt;
+	std::wstring rt;
 	rt = (wchar_t*)pUnicode;
 	delete pUnicode;
 	return rt;
 }
 
-std::string UnicodeToUTF8(const wstring& str)
+std::string UnicodeToUTF8(const std::wstring& str)
 {
 	char*     pElementText;
 	int    iTextLen;
@@ -48,13 +48,13 @@ std::string UnicodeToUTF8(const wstring& str)
 		iTextLen,
 		NULL,
 		NULL);
-	string strText;
+	std::string strText;
 	strText = pElementText;
 	delete[] pElementText;
 	return strText;
 }
 
-std::wstring ANSIToUnicode(const string& str)
+std::wstring ANSIToUnicode(const std::string& str)
 {
 	size_t len = 0;
 	len = str.length();
@@ -73,13 +73,13 @@ std::wstring ANSIToUnicode(const string& str)
 		-1,
 		(LPWSTR)pUnicode,
 		unicodeLen);
-	wstring rt;
+	std::wstring rt;
 	rt = (wchar_t*)pUnicode;
 	delete pUnicode;
 	return rt;
 }
 
-std::string UnicodeToANSI(const wstring& str)
+std::string UnicodeToANSI(const std::wstring& str)
 {
 	char*     pElementText;
 	int    iTextLen;
@@ -102,7 +102,7 @@ std::string UnicodeToANSI(const wstring& str)
 		iTextLen,
 		NULL,
 		NULL);
-	string strText;
+	std::string strText;
 	strText = pElementText;
 	delete[] pElementText;
 	return strText;

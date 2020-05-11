@@ -1,6 +1,10 @@
 #include "Mesh/QymMesh.h"
 #include <algorithm>
 #include "Render/QymRenderCommon.h"
+#include <unordered_map>
+
+#define TINYOBJLOADER_IMPLEMENTATION
+#include <tiny_obj_loader.h>
 
 using namespace QymEngine;
 using namespace QymEngine::Math;
@@ -252,12 +256,12 @@ QymAABB QymMesh::BuildAABB() {
 
 	Vector3f minV = this->m_vfPosition[0], maxV = this->m_vfPosition[0];
 	for (size_t i = 0; i < this->m_vfPosition.size(); i++) {
-		minV[0] = min(minV[0], this->m_vfPosition[i][0]);
-		minV[1] = min(minV[1], this->m_vfPosition[i][1]);
-		minV[2] = min(minV[2], this->m_vfPosition[i][2]);
-		maxV[0] = max(maxV[0], this->m_vfPosition[i][0]);
-		maxV[1] = max(maxV[1], this->m_vfPosition[i][1]);
-		maxV[2] = max(maxV[2], this->m_vfPosition[i][2]);
+		minV[0] = std::min(minV[0], this->m_vfPosition[i][0]);
+		minV[1] = std::min(minV[1], this->m_vfPosition[i][1]);
+		minV[2] = std::min(minV[2], this->m_vfPosition[i][2]);
+		maxV[0] = std::max(maxV[0], this->m_vfPosition[i][0]);
+		maxV[1] = std::max(maxV[1], this->m_vfPosition[i][1]);
+		maxV[2] = std::max(maxV[2], this->m_vfPosition[i][2]);
 	}
 
 	return QymAABB(minV, maxV);
@@ -274,12 +278,12 @@ QymOBB QymMesh::BuildOBB(const Matrix4x4f& transform)
 	Vector3f minV = inverse * this->m_vfPosition[0], maxV = inverse * this->m_vfPosition[0];
 	for (size_t i = 0; i < this->m_vfPosition.size(); i++) {
 		Vector3f pos = inverse * this->m_vfPosition[i];
-		minV[0] = min(minV[0], pos[0]);
-		minV[1] = min(minV[1], pos[1]);
-		minV[2] = min(minV[2], pos[2]);
-		maxV[0] = max(maxV[0], pos[0]);
-		maxV[1] = max(maxV[1], pos[1]);
-		maxV[2] = max(maxV[2], pos[2]);
+		minV[0] = std::min(minV[0], pos[0]);
+		minV[1] = std::min(minV[1], pos[1]);
+		minV[2] = std::min(minV[2], pos[2]);
+		maxV[0] = std::max(maxV[0], pos[0]);
+		maxV[1] = std::max(maxV[1], pos[1]);
+		maxV[2] = std::max(maxV[2], pos[2]);
 	}
 
 	Vector3f pts[8] = {
@@ -602,6 +606,42 @@ std::shared_ptr<QymMesh> QymMesh::BuildSpherePatch(SpherePatchParams params, con
 			indices[index + 4] = y * (horizontal + 1) + x + 1;
 			indices[index + 5] = (y + 1) * (horizontal + 1) + x + 1;
 			index += 6;
+		}
+	}
+
+	return std::make_shared<QymMesh>(attribs, indices);
+}
+
+std::shared_ptr<QymMesh> QymMesh::LoadModel(const std::string path)
+{
+	tinyobj::attrib_t attrib;
+	std::vector<tinyobj::shape_t> shapes;
+	std::vector<tinyobj::material_t> materials;
+	std::string warn, err;
+
+	if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, path.c_str())) {
+		throw std::runtime_error(warn + err);
+	}
+
+	VertexAttribs attribs;
+	IndexArray indices;
+
+	for (const auto& shape : shapes) {
+		for (const auto& index : shape.mesh.indices) {
+
+			attribs.position.push_back({
+				attrib.vertices[3 * index.vertex_index + 0],
+				attrib.vertices[3 * index.vertex_index + 1],
+				attrib.vertices[3 * index.vertex_index + 2]
+			});
+
+			attribs.uv0.push_back({
+				attrib.texcoords[2 * index.texcoord_index + 0],
+				attrib.texcoords[2 * index.texcoord_index + 1]
+			});
+
+			attribs.color.push_back({ 1.0f, 1.0f, 1.0f, 1.0f });
+			indices.push_back(static_cast<GLushort>(indices.size()));
 		}
 	}
 

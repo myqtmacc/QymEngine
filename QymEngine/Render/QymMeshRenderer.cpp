@@ -37,7 +37,7 @@ void QymMeshRenderer::DrawMesh(const QymMesh & _mesh, const Matrix4x4f & _modelm
 	//glUniformMatrix4fv(this->m_pProgram->m_uTexm, 1, GL_FALSE, vmath::Matrix4x4f::identity());
 
 	glBindVertexArray(vaoID);
-	glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_SHORT, NULL);
+	glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, NULL);
 
 	glBindVertexArray(0);
 

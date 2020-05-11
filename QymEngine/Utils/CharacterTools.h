@@ -4,12 +4,12 @@
 #include <windows.h>
 #include <string>
 #include <xstring>
-using namespace std;
 
+#include "Common/QymCommonHeader.h"
 
-wstring UTF8ToUnicode(const string& str);
-string UnicodeToUTF8(const wstring& str);
-wstring ANSIToUnicode(const string& str);
-string UnicodeToANSI(const wstring& str);
+DLL_EXPORT std::wstring UTF8ToUnicode(const std::string& str);
+DLL_EXPORT std::string UnicodeToUTF8(const std::wstring& str);
+DLL_EXPORT std::wstring ANSIToUnicode(const std::string& str);
+DLL_EXPORT std::string UnicodeToANSI(const std::wstring& str);
 
 #endif

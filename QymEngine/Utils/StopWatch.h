@@ -1,6 +1,8 @@
 #pragma once
 #include <cstdint>
 
+#include "Common/QymCommonHeader.h"
+
 #define SV_S_TO_MS (1000)
 #define SV_MS_TO_US (1000)
 #define SV_US_TO_100NS (10)
@@ -8,7 +10,7 @@
 #define SV_S_TO_US (SV_S_TO_MS * SV_MS_TO_US)
 #define SV_S_TO_100NS (SV_S_TO_MS * SV_MS_TO_US * SV_US_TO_100NS)
 
-class CStopwatchMS {
+class DLL_EXPORT CStopwatchMS {
 public:
 	CStopwatchMS();
 	void SetTime_ms(int64_t time_ms);
@@ -23,7 +25,7 @@ private:
 	int64_t m_llTimeStop_ms;
 };
 
-class CStopwatchUS
+class DLL_EXPORT CStopwatchUS
 {
 public:
 	CStopwatchUS();

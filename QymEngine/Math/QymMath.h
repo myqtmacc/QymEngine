@@ -2,11 +2,7 @@
 
 #include <cassert>
 
-#define GLM_FORCE_RADIANS
-#define GLM_FORCE_LEFT_HANDED
-//#define GLM_FORCE_DEPTH_ZERO_TO_ONE
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+#include "Common/QymCommonHeader.h"
 
 namespace QymEngine {
 
@@ -110,7 +106,7 @@ namespace QymEngine {
 			return scaler * proj;
 		}
 
-		class Ratio2D {
+		class DLL_EXPORT Ratio2D {
 		public:
 			float X;
 			float Y;
@@ -142,7 +138,7 @@ namespace QymEngine {
 			}
 		};
 
-		class Size2D {
+		class DLL_EXPORT Size2D {
 		public:
 			size_t X;
 			size_t Y;
@@ -169,7 +165,7 @@ namespace QymEngine {
 			static Size2D Zero;
 		};
 
-		class RectF
+		class DLL_EXPORT RectF
 		{
 		public:
 			Ratio2D Location;
@@ -186,7 +182,7 @@ namespace QymEngine {
 			}
 		};
 
-		class Rect
+		class DLL_EXPORT Rect
 		{
 		public:
 			Size2D Location;
@@ -353,7 +349,7 @@ namespace QymEngine {
 			Vector3f m_vPts[8];
 		};
 
-		class QymIntersection
+		class DLL_EXPORT QymIntersection
 		{
 		public:
 			//·µ»Ø½»µã

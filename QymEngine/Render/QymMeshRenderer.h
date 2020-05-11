@@ -2,15 +2,13 @@
 
 #include <map>
 #include <memory>
-#include <GL/glew.h>
-#include "Mesh/QymMesh.h"
 #include "Texture/QymTexture.h"
 #include "Shader/QymShaderProgram.h"
 #include "Math/QymMath.h"
 
 namespace QymEngine {
 
-	class QymMeshRenderer
+	class DLL_EXPORT QymMeshRenderer
 	{
 	public:
 		QymMeshRenderer() = default;

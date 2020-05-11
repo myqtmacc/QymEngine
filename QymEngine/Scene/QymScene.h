@@ -9,7 +9,7 @@ namespace QymEngine {
 	QSM_OBJECT_PTR(QymGameObject);
 	typedef std::vector<PQymGameObject> PGameObjects;
 
-	class QymScene
+	class DLL_EXPORT QymScene
 	{
 	public:
 		QymScene() = default;

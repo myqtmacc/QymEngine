@@ -66,12 +66,6 @@
     <ClCompile Include="Math\QymMath.cpp">
       <Filter>Math</Filter>
     </ClCompile>
-    <ClCompile Include="Texture\QymImageAccessor.cpp">
-      <Filter>Texture</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture\QymImageReader.cpp">
-      <Filter>Texture</Filter>
-    </ClCompile>
     <ClCompile Include="Common\QymEngineInstance.cpp">
       <Filter>Common</Filter>
     </ClCompile>
@@ -122,15 +116,6 @@
     <ClInclude Include="Math\QymMath.h">
       <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="Texture\QymImageAccessor.h">
-      <Filter>Texture</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture\QymImageReader.h">
-      <Filter>Texture</Filter>
-    </ClInclude>
-    <ClInclude Include="Common\QymCommonBase.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="Common\QymEngineInstance.h">
       <Filter>Common</Filter>
     </ClInclude>
@@ -148,6 +133,10 @@
     </ClInclude>
     <ClInclude Include="Utils\IOTools.h">
       <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="QymEngine.h" />
+    <ClInclude Include="Common\QymCommonHeader.h">
+      <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

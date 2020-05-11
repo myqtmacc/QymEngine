@@ -3,14 +3,14 @@
 #include <memory>
 #include <vector>
 
-#include "Common/QymCommonBase.h"
+#include "Common/QymCommonHeader.h"
 #include "Scene/QymGameObject.h"
 #include "Texture/QymRenderTexture.h"
 #include "Render/QymRenderCommon.h"
 
 namespace QymEngine {
 
-	class QymCamera : public QymObjectBase
+	class DLL_EXPORT QymCamera : public QymObjectBase
 	{
 	public:
 		QymCamera();

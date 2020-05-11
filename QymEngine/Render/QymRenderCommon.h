@@ -1,9 +1,6 @@
 #pragma once
 
-#include "tchar.h"
-#include "windows.h"
-#include <string>
-#include <GL/glew.h>
+#include "Common/QymCommonHeader.h"
 
 namespace QymEngine {
 
@@ -23,6 +20,7 @@ namespace QymEngine {
 
 	const GLint DEFAULT_FRAMEBUFFER_SIZE = 512;
 
+	const char RESOURCE_MODEL_PATH[] = "Models";
 	const char RESOURCE_TEXTURE_PATH[] = "Textures";
 	const char RESOURCE_SHADER_PATH[] = "Shaders";
 

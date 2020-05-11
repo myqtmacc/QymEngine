@@ -1,14 +1,14 @@
 #pragma once
 
 #include <memory>
-#include "Common/QymCommonBase.h"
+#include "Common/QymCommonHeader.h"
 #include "Scene/QymObjectBase.h"
 #include "Mesh//QymMesh.h"
 #include "Math/QymMath.h"
 
 namespace QymEngine {
 
-	class QymGameObject : public QymObjectBase {
+	class DLL_EXPORT QymGameObject : public QymObjectBase {
 
 		QSM_OBJECT_PTR(QymMeshRenderer);
 		QSM_OBJECT_PTR(QymMesh);

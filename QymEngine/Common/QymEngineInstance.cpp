@@ -1,9 +1,9 @@
-#include "Common//QymEngineInstance.h"
-#include <GL/glew.h>
-#include <GL/wglew.h>
+#include "Common/QymEngineInstance.h"
+#include "Common/QymCommonHeader.h"
 
 using namespace QymEngine;
 using namespace QymEngine::Math;
+
 
 HWND QymEngineInstance::m_hWnd = nullptr;
 HDC QymEngineInstance::m_hDC = nullptr;
@@ -21,55 +21,62 @@ bool QymEngineInstance::Initialize(HWND hWnd, int width, int height)
 		return false;
 	}
 
-	static	PIXELFORMATDESCRIPTOR pfd =				// pfd Tells Windows How We Want Things To Be
-	{
-		sizeof(PIXELFORMATDESCRIPTOR),				// Size Of This Pixel Format Descriptor
-		1,											// Version Number
-		PFD_DRAW_TO_WINDOW |						// Format Must Support Window
-		PFD_SUPPORT_OPENGL |						// Format Must Support OpenGL
-		PFD_DOUBLEBUFFER,							// Must Support Double Buffering
-		PFD_TYPE_RGBA,								// Request An RGBA Format
-		32,											// Select Our Color Depth
-		0, 0, 0, 0, 0, 0,							// Color Bits Ignored
-		0,											// No Alpha Buffer
-		0,											// Shift Bit Ignored
-		0,											// No Accumulation Buffer
-		0, 0, 0, 0,									// Accumulation Bits Ignored
-		16,											// 16Bit Z-Buffer (Depth Buffer)  
-		0,											// No Stencil Buffer
-		0,											// No Auxiliary Buffer
-		PFD_MAIN_PLANE,								// Main Drawing Layer
-		0,											// Reserved
-		0, 0, 0										// Layer Masks Ignored
-	};
+	PIXELFORMATDESCRIPTOR pfd;
+	memset(&pfd, 0, sizeof(PIXELFORMATDESCRIPTOR));
+	pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
+	pfd.nVersion = 1;
+	pfd.dwFlags = PFD_DOUBLEBUFFER | PFD_SUPPORT_OPENGL | PFD_DRAW_TO_WINDOW;
+	pfd.iPixelType = PFD_TYPE_RGBA;
+	pfd.cColorBits = 32;
+	pfd.cDepthBits = 32;
+	pfd.iLayerType = PFD_MAIN_PLANE;
 
-	GLuint PixelFormat;
-	if (!(PixelFormat = ChoosePixelFormat(m_hDC, &pfd)))	// Did Windows Find A Matching Pixel Format?
-	{
-		return false;								// Return FALSE
-	}
+	int nPixelFormat = ChoosePixelFormat(m_hDC, &pfd);
 
-	if (!SetPixelFormat(m_hDC, PixelFormat, &pfd))		// Are We Able To Set The Pixel Format?
-	{
-		return false;								// Return FALSE
-	}
+	if (nPixelFormat == 0) return false;
 
+	BOOL bResult = SetPixelFormat(m_hDC, nPixelFormat, &pfd);
 
-	if (!(m_hRC = wglCreateContext(m_hDC))) {
-		return false;
-	}
+	if (!bResult) return false;
 
-	if (!wglMakeCurrent(m_hDC, m_hRC)) {
-		return false;
-	}
+	HGLRC tempContext = wglCreateContext(m_hDC);
+	wglMakeCurrent(m_hDC, tempContext);
 
 	GLenum err = glewInit();
-	if (err != GLEW_OK) {
-		const char* p = (const char*)glewGetErrorString(err);
+	if (GLEW_OK != err)
+	{
 		return false;
 	}
 
-	return true;
+	int attribs[] =
+	{
+		WGL_CONTEXT_MAJOR_VERSION_ARB, 4,
+		WGL_CONTEXT_MINOR_VERSION_ARB, 1,
+		WGL_CONTEXT_FLAGS_ARB, 0,
+		0
+	};
+
+	if (wglewIsSupported("WGL_ARB_create_context") == 1)
+	{
+		m_hRC = wglCreateContextAttribsARB(m_hDC, 0, attribs);
+		wglMakeCurrent(NULL, NULL);
+		wglDeleteContext(tempContext);
+		wglMakeCurrent(m_hDC, m_hRC);
+	}
+	else
+	{	//It's not possible to make a GL 3.x context. Use the old style context (GL 2.1 and before)
+		m_hRC = tempContext;
+	}
+
+	//Checking GL version
+	const GLubyte *GLVersionString = glGetString(GL_VERSION);
+
+	//Or better yet, use the GL3 way to get the version number
+	int OpenGLVersion[2];
+	glGetIntegerv(GL_MAJOR_VERSION, &OpenGLVersion[0]);
+	glGetIntegerv(GL_MINOR_VERSION, &OpenGLVersion[1]);
+
+	return m_hRC != NULL;
 }
 
 void QymEngineInstance::Destroy()

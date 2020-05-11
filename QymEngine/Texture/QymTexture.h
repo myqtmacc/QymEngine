@@ -2,15 +2,12 @@
 
 #include <memory>
 #include <string>
-#include "GL/glew.h"
 
 #include "Math/QymMath.h"
-#include "windows.h"
-
 
 namespace QymEngine {
 
-	class QymTexture
+	class DLL_EXPORT QymTexture
 	{
 	public:
 		QymTexture();

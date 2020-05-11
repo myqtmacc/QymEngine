@@ -39,13 +39,13 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -84,12 +84,15 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>false</ConformanceMode>
-      <AdditionalIncludeDirectories>.\;..\3rd-party\glew\include;..\3rd-party\glew\glew-1.9.0-win64\glew-1.9.0\include;..\3rd-party\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\;..\3rd-party\glew\include;..\3rd-party\glew\glew-1.9.0-win64\glew-1.9.0\include;..\3rd-party\glm;..\3rd-party\stb;..\3rd-party\tinyobjloader;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>
       </LanguageStandard>
+      <PreprocessorDefinitions>QYM_ENGINE_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>
+      </DisableSpecificWarnings>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>..\3rd-party\OpenGL\lib\x64;..\3rd-party\OpenGL\glew-1.9.0-win64\glew-1.9.0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\3rd-party\glew\lib\x64;..\3rd-party\glew\glew-1.9.0-win64\glew-1.9.0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -120,12 +123,13 @@
       <ConformanceMode>false</ConformanceMode>
       <LanguageStandard>
       </LanguageStandard>
-      <AdditionalIncludeDirectories>.\;..\3rd-party\glew\include;..\3rd-party\glew\glew-1.9.0-win64\glew-1.9.0\include;..\3rd-party\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\;..\3rd-party\glew\include;..\3rd-party\glew\glew-1.9.0-win64\glew-1.9.0\include;..\3rd-party\glm;..\3rd-party\stb;..\3rd-party\tinyobjloader;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>QYM_ENGINE_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>..\3rd-party\OpenGL\lib\x64;..\3rd-party\OpenGL\glew-1.9.0-win64\glew-1.9.0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\3rd-party\glew\lib\x64;..\3rd-party\glew\glew-1.9.0-win64\glew-1.9.0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -142,8 +146,6 @@
     <ClCompile Include="Scene\QymObjectBase.cpp" />
     <ClCompile Include="Scene\QymScene.cpp" />
     <ClCompile Include="Shader\QymShaderProgram.cpp" />
-    <ClCompile Include="Texture\QymImageAccessor.cpp" />
-    <ClCompile Include="Texture\QymImageReader.cpp" />
     <ClCompile Include="Texture\QymRenderTexture.cpp" />
     <ClCompile Include="Texture\QymTexture.cpp" />
     <ClCompile Include="Utils\CharacterTools.cpp" />
@@ -153,19 +155,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera\QymCamera.h" />
-    <ClInclude Include="Common\QymCommonBase.h" />
+    <ClInclude Include="Common\QymCommonHeader.h" />
     <ClInclude Include="Common\QymEngineInstance.h" />
     <ClInclude Include="Log\QymLog.h" />
     <ClInclude Include="Math\QymMath.h" />
     <ClInclude Include="Mesh\QymMesh.h" />
+    <ClInclude Include="QymEngine.h" />
     <ClInclude Include="Render\QymMeshRenderer.h" />
     <ClInclude Include="Render\QymRenderCommon.h" />
     <ClInclude Include="Scene\QymGameObject.h" />
     <ClInclude Include="Scene\QymObjectBase.h" />
     <ClInclude Include="Scene\QymScene.h" />
     <ClInclude Include="Shader\QymShaderProgram.h" />
-    <ClInclude Include="Texture\QymImageAccessor.h" />
-    <ClInclude Include="Texture\QymImageReader.h" />
     <ClInclude Include="Texture\QymRenderTexture.h" />
     <ClInclude Include="Texture\QymTexture.h" />
     <ClInclude Include="Utils\CharacterTools.h" />

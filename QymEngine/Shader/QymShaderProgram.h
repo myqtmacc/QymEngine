@@ -1,11 +1,11 @@
 #pragma once
 
 #include <string>
-#include <GL/glew.h>
+#include "Common/QymCommonHeader.h"
 
 namespace QymEngine {
 
-	class QymShaderFailedException : std::exception
+	class DLL_EXPORT QymShaderFailedException : std::exception
 	{
 	public:
 		QymShaderFailedException() = delete;
@@ -14,7 +14,7 @@ namespace QymEngine {
 		std::string errMsg;
 	};
 
-	class QymShaderProgram {
+	class DLL_EXPORT QymShaderProgram {
 
 		friend class QymMeshRenderer;
 

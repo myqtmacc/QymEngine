@@ -8,7 +8,7 @@ namespace QymEngine {
 #define QSM_OBJECT_PTR(type)				typedef std::shared_ptr<type> P##type
 #define QSM_MAKE_OBJECT(type, name, ...)	std::shared_ptr<type> name = std::make_shared<type>(__VA_ARGS__)
 
-	class QymObjectBase {
+	class DLL_EXPORT QymObjectBase {
 
 		QSM_OBJECT_PTR(QymObjectBase);
 

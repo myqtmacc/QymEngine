@@ -1,15 +1,12 @@
 #pragma once
 #include "Windows.h"
+#include "Common/QymCommonHeader.h"
 #include "Math/QymMath.h"
-
-#pragma comment( lib, "OpenGL32.lib" )
-#pragma comment( lib, "glaux.lib" )
-#pragma comment( lib, "glew32.lib" )
 
 // 使用方法见QymEngineDemo项目
 namespace QymEngine {
 
-	class QymEngineInstance {
+	class DLL_EXPORT QymEngineInstance {
 	public:
 		static bool Initialize(HWND hWnd, int width, int height);
 		static void Destroy();

@@ -2,12 +2,12 @@
 
 #include <memory>
 #include <vector>
-#include <GL/glew.h>
+#include "Common/QymCommonHeader.h"
 #include "Texture/QymTexture.h"
 
 namespace QymEngine {
 
-	class QymMRTUnsupportedException
+	class DLL_EXPORT QymMRTUnsupportedException
 	{
 	public:
 		QymMRTUnsupportedException() = delete;

@@ -1,12 +1,14 @@
 #include "windows.h"
 #include <fstream>
 
-HRESULT WriteBuffer2File(LPCWSTR filename, char * buffer, int size);
+#include "Common/QymCommonHeader.h"
 
-HRESULT ReadBufferFromFile(LPCWSTR filename, char * buffer, int size, DWORD *readedSize);
+DLL_EXPORT HRESULT WriteBuffer2File(LPCWSTR filename, char * buffer, int size);
 
-bool ReadAllBytes(const char * filename, BYTE * buffer, int * readedSize);
-bool WriteAllBytes(const char * filename, BYTE * buffer, int writeSize);
+DLL_EXPORT HRESULT ReadBufferFromFile(LPCWSTR filename, char * buffer, int size, DWORD *readedSize);
 
-bool ReadAllBytes2(const char * filename, BYTE * buffer, int * readedSize);
-bool WriteAllBytes2(const char * filename, BYTE * buffer, int writeSize);
+DLL_EXPORT bool ReadAllBytes(const char * filename, BYTE * buffer, int * readedSize);
+DLL_EXPORT bool WriteAllBytes(const char * filename, BYTE * buffer, int writeSize);
+
+DLL_EXPORT bool ReadAllBytes2(const char * filename, BYTE * buffer, int * readedSize);
+DLL_EXPORT bool WriteAllBytes2(const char * filename, BYTE * buffer, int writeSize);

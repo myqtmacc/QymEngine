@@ -2,7 +2,7 @@
 
 #include <memory>
 #include <vector>
-#include <GL/glew.h>
+#include "Common/QymCommonHeader.h"
 #include "Math/QymMath.h"
 
 namespace QymEngine {
@@ -23,9 +23,9 @@ namespace QymEngine {
 		float latitudeRange;
 	};
 
-	typedef std::vector<GLushort> IndexArray;
+	typedef std::vector<GLuint> IndexArray;
 
-	class QymMesh
+	class DLL_EXPORT QymMesh
 	{
 
 	public:
@@ -55,13 +55,15 @@ namespace QymEngine {
 		static std::shared_ptr<QymMesh> BuildQuadPatch(SpherePatchParams params);
 		static std::shared_ptr<QymMesh> BuildTesselledQuad(const int horizontal, const int vertical);
 
+		static std::shared_ptr<QymMesh> LoadModel(const std::string path);
+
 	private:
 		std::vector<Math::Vector3f> m_vfPosition;
 		std::vector<Math::Vector4f> m_vfColor;
 		std::vector<Math::Vector2f> m_vfUV0;
 		std::vector<Math::Vector2f> m_vfUV1;
 
-		std::vector<GLushort> m_vsIndices;
+		std::vector<GLuint> m_vsIndices;
 
 		GLuint m_iVBO;
 		GLuint m_iEBO;
