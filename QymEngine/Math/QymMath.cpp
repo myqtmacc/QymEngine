@@ -68,3 +68,36 @@ int QymIntersection::PlaneAABBIntersection(const QymPlane & plane, const QymAABB
 	}
 	return 0;
 }
+
+template<typename BB>
+bool QymIntersection::FrustrumIntersection(const Matrix4x4f & vpm, const BB &bb)
+{
+	bool valid = true;
+	Vector4f pts[8];
+	bb.GetPts(pts);
+
+	Vector4f
+	v1 = vpm * pts[0], v2 = vpm * pts[1],
+	v3 = vpm * pts[2], v4 = vpm * pts[3],
+	v5 = vpm * pts[4], v6 = vpm * pts[5],
+	v7 = vpm * pts[6], v8 = vpm * pts[7];
+
+	for (int i = 0; i < 3; i++) {
+
+		bool b1 = false, b2 = false;
+		b1 = v1[i] < -v1[3] && v2[i] < -v2[3] && v3[i] < -v3[3] && v4[i] < -v4[3] &&
+			v5[i] < -v5[3] && v6[i] < -v6[3] && v7[i] < -v7[3] && v8[i] < -v8[3];
+
+		b2 = v1[i] > v1[3] && v2[i] > v2[3] && v3[i] > v3[3] && v4[i] > v4[3] &&
+			v5[i] > v5[3] && v6[i] > v6[3] && v7[i] > v7[3] && v8[i] > v8[3];
+
+		if (b1 || b2) {
+			valid = false;
+			break;
+		}
+	}
+
+	return valid;
+}
+template bool QymIntersection::FrustrumIntersection<QymAABB>(const Matrix4x4f & vpm, const QymAABB &bb);
+template bool QymIntersection::FrustrumIntersection<QymOBB>(const Matrix4x4f & vpm, const QymOBB &bb);

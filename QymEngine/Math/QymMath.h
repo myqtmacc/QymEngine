@@ -266,6 +266,28 @@ namespace QymEngine {
 			float GetMaxY() const { return m_vMax[1]; }
 			float GetMaxZ() const { return m_vMax[2]; }
 
+			void GetPts(Vector3f(&pts)[8]) const {
+				pts[0] = { GetMinX(), GetMinY(), GetMinZ() };
+				pts[1] = { GetMinX(), GetMinY(), GetMaxZ() };
+				pts[2] = { GetMinX(), GetMaxY(), GetMinZ() };
+				pts[3] = { GetMinX(), GetMaxY(), GetMaxZ() };
+				pts[4] = { GetMaxX(), GetMinY(), GetMinZ() };
+				pts[5] = { GetMaxX(), GetMinY(), GetMaxZ() };
+				pts[6] = { GetMaxX(), GetMaxY(), GetMinZ() };
+				pts[7] = { GetMaxX(), GetMaxY(), GetMaxZ() };
+			}
+
+			void GetPts(Vector4f(&pts)[8]) const {
+				pts[0] = { GetMinX(), GetMinY(), GetMinZ(), 1.0f };
+				pts[1] = { GetMinX(), GetMinY(), GetMaxZ(), 1.0f };
+				pts[2] = { GetMinX(), GetMaxY(), GetMinZ(), 1.0f };
+				pts[3] = { GetMinX(), GetMaxY(), GetMaxZ(), 1.0f };
+				pts[4] = { GetMaxX(), GetMinY(), GetMinZ(), 1.0f };
+				pts[5] = { GetMaxX(), GetMinY(), GetMaxZ(), 1.0f };
+				pts[6] = { GetMaxX(), GetMaxY(), GetMinZ(), 1.0f };
+				pts[7] = { GetMaxX(), GetMaxY(), GetMaxZ(), 1.0f };
+			}
+
 		private:
 			Vector3f m_vMin;
 			Vector3f m_vMax;
@@ -286,10 +308,17 @@ namespace QymEngine {
 				}
 			}
 
-			void GetPts(Vector3f(&pts)[8]) {
+			void GetPts(Vector3f(&pts)[8]) const {
 				for (int i = 0; i < 8; i++)
 				{
 					pts[i] = this->m_vPts[i];
+				}
+			}
+
+			void GetPts(Vector4f(&pts)[8]) const {
+				for (int i = 0; i < 8; i++)
+				{
+					pts[i] = Vector4f(this->m_vPts[i], 1.0f);
 				}
 			}
 
@@ -314,6 +343,9 @@ namespace QymEngine {
 
 			//正面返回1，背面返回-1，相交返回0
 			static int PlaneAABBIntersection(const QymPlane & plane, const QymAABB & aabb);
+
+			template<typename BB>
+			static bool FrustrumIntersection(const Matrix4x4f & vpm, const BB &bb);
 		};
 
 		inline float A2R(float angle) {

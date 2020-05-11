@@ -134,54 +134,19 @@ void QymCamera::RenderScene(const QymScene & _scene, const std::vector<GLenum> &
 
 bool QymCamera::FrustrumIntersected(QymGameObject & obj, E_INTERSECTION_DETECTION_MODE mode) {
 
-	bool valid = true;
 	Matrix4x4f viewm = this->GetViewM();
-	Matrix4x4f mvpm = this->m_mProj * viewm;
-
-	Vector4f v1, v2, v3, v4, v5, v6, v7, v8;
+	Matrix4x4f vpm = this->m_mProj * viewm;
 
 	if (mode == E_INTERSECTION_DETECTION_MODE::AABB) {
 		QymAABB aabb = obj.GetAABB();
+		return Math::QymIntersection::FrustrumIntersection(vpm, aabb);
 
-		v1 = mvpm * Vector4f(aabb.GetMinX(), aabb.GetMinY(), aabb.GetMinZ(), 1.0f);
-		v2 = mvpm * Vector4f(aabb.GetMinX(), aabb.GetMinY(), aabb.GetMaxZ(), 1.0f);
-		v3 = mvpm * Vector4f(aabb.GetMinX(), aabb.GetMaxY(), aabb.GetMinZ(), 1.0f);
-		v4 = mvpm * Vector4f(aabb.GetMinX(), aabb.GetMaxY(), aabb.GetMaxZ(), 1.0f);
-		v5 = mvpm * Vector4f(aabb.GetMaxX(), aabb.GetMinY(), aabb.GetMinZ(), 1.0f);
-		v6 = mvpm * Vector4f(aabb.GetMaxX(), aabb.GetMinY(), aabb.GetMaxZ(), 1.0f);
-		v7 = mvpm * Vector4f(aabb.GetMaxX(), aabb.GetMaxY(), aabb.GetMinZ(), 1.0f);
-		v8 = mvpm * Vector4f(aabb.GetMaxX(), aabb.GetMaxY(), aabb.GetMaxZ(), 1.0f);
 	}
 	else if (mode == E_INTERSECTION_DETECTION_MODE::OBB)
 	{
 		QymOBB obb = obj.GetOBB();
-
-		v1 = mvpm * Vector4f(obb[0], 1.0f);
-		v2 = mvpm * Vector4f(obb[1], 1.0f);
-		v3 = mvpm * Vector4f(obb[2], 1.0f);
-		v4 = mvpm * Vector4f(obb[3], 1.0f);
-		v5 = mvpm * Vector4f(obb[4], 1.0f);
-		v6 = mvpm * Vector4f(obb[5], 1.0f);
-		v7 = mvpm * Vector4f(obb[6], 1.0f);
-		v8 = mvpm * Vector4f(obb[7], 1.0f);
+		return Math::QymIntersection::FrustrumIntersection(vpm, obb);
 	}
 
-	//Vector4f r = mvpm * Vector4f(0.0f, 0.0f, -50.0f, 1.0f);
-	//Vector4f r1 = mvpm * Vector4f(85.0f, 0.0f, -50.0f, 1.0f);
-	for (int i = 0; i < 3; i++) {
-
-		bool b1 = false, b2 = false;
-		b1 = v1[i] < -v1[3] && v2[i] < -v2[3] && v3[i] < -v3[3] && v4[i] < -v4[3] &&
-			v5[i] < -v5[3] && v6[i] < -v6[3] && v7[i] < -v7[3] && v8[i] < -v8[3];
-
-		b2 = v1[i] > v1[3] && v2[i] > v2[3] && v3[i] > v3[3] && v4[i] > v4[3] &&
-			v5[i] > v5[3] && v6[i] > v6[3] && v7[i] > v7[3] && v8[i] > v8[3];
-
-		if (b1 || b2) {
-			valid = false;
-			break;
-		}
-	}
-
-	return valid;
+	return false;
 }
