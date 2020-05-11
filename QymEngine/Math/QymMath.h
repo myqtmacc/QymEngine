@@ -16,11 +16,11 @@ namespace QymEngine {
 		Different graphics backend use different specification for math calulation, such as origin of coordinate system, NDC depth range and use of row space ot column space
 		but for the game play side, we dont want to care about the implementation details between graphics backend. So we unify the math specifications for game play side here:
 		1. use left hand coordinate system.
-		2. depth range from 0 to 1
-		3. use column space for vectors and matrix, so M * V instead of V * M
+		2. depth range from -1 to 1
+		3. use column space for vectors and matrix, so M * Vec instead of Vec * M
 		before upload math data to platform specific shader, we need to do some translation, take OpenGL for example:
 		though OpenGL use right hand by default, what we need to do is just to output correct NDC in vertex shader, so upload matrix in left hand is OK
-		OpenGL need vertex shader output z from -1 to 1, so we need to modify projection matrix before uploading to map from [0, 1] to [-1, 1]
+		DX11 need vertex shader output z from 0 to 1, so we need to modify projection matrix before uploading to map from [-1, 1] to [0, 1]
 		*/
 
 		constexpr double M_PI = glm::pi<double>();
@@ -87,6 +87,27 @@ namespace QymEngine {
 		inline Matrix4x4f Scale(float _s)
 		{
 			return glm::scale(glm::identity<Matrix4x4f>(), Vector3f(_s));
+		}
+
+		inline Matrix4x4f ProjectionMatrix_NO2ZO(const Matrix4x4f & proj)
+		{
+			Matrix4x4f scaler(
+				1, 0, 0, 0,
+				0, 1, 0, 0,
+				0, 0, 0.5f, 0,
+				0, 0, 0.5f, 1
+			);
+			return scaler * proj;
+		}
+		inline Matrix4x4f ProjectionMatrix_ZO2NO(const Matrix4x4f & proj)
+		{
+			Matrix4x4f scaler(
+				1, 0, 0, 0,
+				0, 1, 0, 0,
+				0, 0, 2, 0,
+				0, 0, -1, 1
+			);
+			return scaler * proj;
 		}
 
 		class Ratio2D {
