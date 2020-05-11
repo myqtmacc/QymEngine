@@ -12,6 +12,17 @@ namespace QymEngine {
 
 	namespace Math {
 
+		/* 
+		Different graphics backend use different specification for math calulation, such as origin of coordinate system, NDC depth range and use of row space ot column space
+		but for the game play side, we dont want to care about the implementation details between graphics backend. So we unify the math specifications for game play side here:
+		1. use left hand coordinate system.
+		2. depth range from 0 to 1
+		3. use column space for vectors and matrix, so M * V instead of V * M
+		before upload math data to platform specific shader, we need to do some translation, take OpenGL for example:
+		though OpenGL use right hand by default, what we need to do is just to output correct NDC in vertex shader, so upload matrix in left hand is OK
+		OpenGL need vertex shader output z from -1 to 1, so we need to modify projection matrix before uploading to map from [0, 1] to [-1, 1]
+		*/
+
 		constexpr double M_PI = glm::pi<double>();
 
 		typedef glm::vec2 Vector2f;
@@ -19,6 +30,11 @@ namespace QymEngine {
 		typedef glm::vec4 Vector4f;
 		typedef glm::mat3 Matrix3x3f;
 		typedef glm::mat4 Matrix4x4f;
+
+		inline Vector4f operator*(const Matrix4x4f & _mat4, const Vector3f & _vec3)
+		{
+			return _mat4 * Vector4f(_vec3, 1.0f);
+		}
 
 		template<typename T>
 		T Identity()
@@ -316,10 +332,5 @@ namespace QymEngine {
 
 			return f;
 		}
-	}
-
-	inline Math::Vector4f operator*(const Math::Matrix4x4f & _mat4, const Math::Vector3f & _vec3)
-	{
-		return _mat4 * Math::Vector4f(_vec3, 1.0f);
 	}
 }

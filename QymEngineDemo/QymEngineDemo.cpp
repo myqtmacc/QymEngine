@@ -26,7 +26,7 @@ BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);  
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
-Math::Vector3f g_CameraPos(0, 0, -2);
+Math::Vector3f g_CameraPos(0, 0, -5);
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -188,10 +188,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		switch (wParam)
 		{
 		case VK_UP:
-			g_CameraPos[2] -= 0.1f;
+			g_CameraPos[2] += 0.1f;
 			break;
 		case VK_DOWN:
-			g_CameraPos[2] += 0.1f;
+			g_CameraPos[2] -= 0.1f;
 			break;
 		case VK_LEFT:
 			g_CameraPos[0] -= 0.1f;
