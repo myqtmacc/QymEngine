@@ -626,7 +626,7 @@ std::shared_ptr<QymMesh> QymMesh::LoadModel(const std::string path)
 	VertexAttribs attribs;
 	IndexArray indices;
 
-	//std::unordered_map<QymVertex, uint32_t, QymVertexHash> uniqueVertices = {};
+	std::unordered_map<QymVertex, uint32_t, QymVertexHash> uniqueVertices = {};
 
 	for (const auto& shape : shapes) {
 		for (const auto& index : shape.mesh.indices) {
@@ -645,18 +645,18 @@ std::shared_ptr<QymMesh> QymMesh::LoadModel(const std::string path)
 
 			vertex.color = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-			// if (uniqueVertices.count(vertex) == 0) {
-			// 	uniqueVertices[vertex] = static_cast<uint32_t>(indices.size());
-			// 	attribs.position.push_back(vertex.pos);
-			// 	attribs.color.push_back(vertex.color);
-			// 	attribs.uv0.push_back(vertex.uv0);
-			// }
-			// indices.push_back(uniqueVertices[vertex]);
+			if (uniqueVertices.count(vertex) == 0) {
+				uniqueVertices[vertex] = static_cast<uint32_t>(attribs.position.size());
+				attribs.position.push_back(vertex.pos);
+				attribs.color.push_back(vertex.color);
+				attribs.uv0.push_back(vertex.uv0);
+			}
+			indices.push_back(uniqueVertices[vertex]);
 
-			attribs.position.push_back(vertex.pos);
-			attribs.color.push_back(vertex.color);
-			attribs.uv0.push_back(vertex.uv0);
-			indices.push_back(indices.size());
+			// attribs.position.push_back(vertex.pos);
+			// attribs.color.push_back(vertex.color);
+			// attribs.uv0.push_back(vertex.uv0);
+			// indices.push_back(indices.size());
 		}
 	}
 
