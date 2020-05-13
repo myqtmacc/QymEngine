@@ -37,7 +37,10 @@ void QymMeshRenderer::DrawMesh(const QymMesh & _mesh, const Matrix4x4f & _modelm
 	//glUniformMatrix4fv(this->m_pProgram->m_uTexm, 1, GL_FALSE, vmath::Matrix4x4f::identity());
 
 	glBindVertexArray(vaoID);
+
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, NULL);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	glBindVertexArray(0);
 

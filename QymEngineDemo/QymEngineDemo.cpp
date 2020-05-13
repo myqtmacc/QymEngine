@@ -10,7 +10,7 @@ using namespace QymEngine;
 const int g_WindowWidth = 1920;
 const int g_WindowHeight = 1080;
 
-Math::Vector3f g_CameraPos(0, 0, -5);
+Math::Vector3f g_CameraPos(0, 1, -5);
 
 static void
 fatal_error(char *msg)
@@ -83,7 +83,7 @@ create_window(HINSTANCE inst)
 	HWND window = CreateWindowExA(
 		0,
 		window_class.lpszClassName,
-		"OpenGL",
+		"QymEngineDemo",
 		window_style,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
@@ -117,25 +117,25 @@ WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd_line, int show)
 		return FALSE;
 	}
 
-	QymEngineInstance::SetVSync(true);
+	QymEngineInstance::SetVSync(true);        
 
 	QSM_MAKE_OBJECT(QymCamera, camera);
 	auto proj = Math::Perspective(60, 1.5f, 0.1f, 100.0f);
 	camera->SetProjM(proj);
 
 	auto tex = QymTexture::LoadTexture(Path_Join(Path_StripFilename(Path_GetExecutablePath()), RESOURCE_TEXTURE_PATH, "chalet.jpg"));
-
+	   
 	QSM_MAKE_OBJECT(QymShaderProgram, program, normal_shader_vs, normal_shader_fs, 1);
 	QSM_MAKE_OBJECT(QymMeshRenderer, mr, program);
 	mr->AddTexture(0, tex);
 
-	//auto mesh = QymMesh::LoadModel(Path_Join(Path_StripFilename(Path_GetExecutablePath()), RESOURCE_MODEL_PATH, "chalet.obj"));
-	auto mesh = QymMesh::BuildQuad();
+	auto mesh = QymMesh::LoadModel(Path_Join(Path_StripFilename(Path_GetExecutablePath()), RESOURCE_MODEL_PATH, "chalet.obj"));
+	//auto mesh = QymMesh::BuildGlobe();
 	QSM_MAKE_OBJECT(QymGameObject, go, mesh, mr);
+	//go->SetLocalModelM(Math::Rotate(90.0f, Math::Vector3f(1.0f, 0, 0)));
 
 	QSM_MAKE_OBJECT(QymScene, scene);
 	scene->AddGameObject(go);
-
 
 	bool running = true;
 	while (running) {
@@ -150,6 +150,9 @@ WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd_line, int show)
 			}
 		}
 
+		static float angle = 0;
+		go->SetLocalModelM(Math::Rotate(angle, Math::Vector3f(0, 1, 0)) * Math::Rotate(-90.0f, Math::Vector3f(1.0f, 0, 0)));
+		angle += 1;;
 		camera->SetLocalModelM(Math::Translate(g_CameraPos));
 		camera->RenderScene(*scene);
 		QymEngineInstance::Present();

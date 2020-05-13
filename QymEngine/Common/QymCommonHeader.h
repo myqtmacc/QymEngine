@@ -15,6 +15,7 @@
 //#define GLM_FORCE_DEPTH_ZERO_TO_ONE
 #include "..\3rd-party\glm/glm/glm.hpp"
 #include "..\3rd-party\glm/glm/gtc/matrix_transform.hpp"
+#include "..\3rd-party\glm/glm/gtx/hash.hpp"
 
 #ifdef QYM_ENGINE_DLL
 #define DLL_EXPORT __declspec(dllexport)

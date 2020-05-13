@@ -35,7 +35,7 @@ void QymCamera::RenderScene(const QymScene & _scene) {
 
 	if (!this->m_pRT)
 	{
-		glDisable(GL_DEPTH_TEST);
+		glEnable(GL_DEPTH_TEST);
 		glDisable(GL_CULL_FACE);
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 		glDrawBuffer(GL_BACK);
@@ -64,7 +64,7 @@ void QymCamera::RenderScene(const QymScene & _scene) {
 		GLint _W = static_cast<GLint>(_width * this->m_rViewport.Size.X);
 		GLint _H = static_cast<GLint>(_height * this->m_rViewport.Size.Y);
 
-		glDisable(GL_DEPTH_TEST);
+		glEnable(GL_DEPTH_TEST);
 		glDisable(GL_CULL_FACE);
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fbo);
 		glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);

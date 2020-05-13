@@ -106,6 +106,37 @@ namespace QymEngine {
 			return scaler * proj;
 		}
 
+		struct QymVertex {
+			Vector3f pos;
+			Vector4f color;
+			Vector2f uv0;
+			Vector2f uv1;
+
+			QymVertex() :
+				pos(0.0f),
+				color(1.0f),
+				uv0(0.0f),
+				uv1(0.0f)
+			{ }
+
+			bool operator==(const QymVertex& other) const {
+				return pos == other.pos && color == other.color &&
+					uv0 == other.uv0 && uv1 == other.uv1;
+			}
+		};
+
+		class QymVertexHash
+		{
+		public:
+			std::size_t operator()(const QymVertex& v) const
+			{
+				return std::hash<Vector3f>()(v.pos) +
+					std::hash<Vector4f>()(v.color) +
+					std::hash<Vector2f>()(v.uv0) + 
+					std::hash<Vector2f>()(v.uv1);
+			}
+		};
+
 		class DLL_EXPORT Ratio2D {
 		public:
 			float X;
