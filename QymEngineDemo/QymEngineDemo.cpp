@@ -2,6 +2,7 @@
 //
 
 #include "stdafx.h"
+#include <algorithm>
 #include "QymEngineDemo.h"
 #include "QymEngine.h"
 
@@ -42,6 +43,13 @@ window_callback(HWND window, UINT msg, WPARAM wparam, LPARAM lparam)
 			g_CameraPos[0] += 0.1f;
 			break;
 		}
+		break;
+	case WM_SIZE:
+	{
+		size_t width = LOWORD(lparam);
+		size_t height = HIWORD(lparam);
+		QymEngineInstance::HandleResize({ width, height });
+	}
 		break;
 	case WM_CLOSE:
 	case WM_DESTROY:
@@ -120,8 +128,11 @@ WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd_line, int show)
 	QymEngineInstance::SetVSync(true);        
 
 	QSM_MAKE_OBJECT(QymCamera, camera);
-	auto proj = Math::Perspective(60, 1.5f, 0.1f, 100.0f);
-	camera->SetProjM(proj);
+	// auto proj = Math::Perspective(60, 1.5f, 0.1f, 100.0f);
+	// camera->SetProjM(proj);
+	camera->SetOrthogonal(false);
+	camera->SetNearFar({ 0.1f, 100.0f });
+	camera->SetFOV(60);
 
 	auto tex = QymTexture::LoadTexture(Path_Join(Path_StripFilename(Path_GetExecutablePath()), RESOURCE_TEXTURE_PATH, "chalet.jpg"));
 	   

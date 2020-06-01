@@ -9,13 +9,55 @@ using namespace QymEngine::Math;
 
 QymCamera * QymCamera::m_pCurrentCam = NULL;
 
+Math::Matrix4x4f m_mView;
+Math::Matrix4x4f m_mProj;
+Math::Matrix4x4f m_mCustomProj;
+
+bool m_bOrthogonalProj;
+Math::Vector2f m_vNearFar;
+float m_fOrthoSize;
+float m_fFov;
+float m_fRatio;
+float m_fCustomRatio;
+
+bool m_bCustomProj;
+bool m_bCustomRatio;
+
+bool m_bProjDirty;
+
 QymCamera::QymCamera() :
 m_mView(Identity<Matrix4x4f>()),
 m_mProj(Identity<Matrix4x4f>()),
-m_rViewport(Ratio2D(0.0f, 0.0f), Ratio2D(1.0f, 1.0f))
+m_mCustomProj(Identity<Matrix4x4f>()),
+m_bOrthogonalProj(false),
+m_vNearFar(1.0f, 1000.0f),
+m_fOrthoSize(1),
+m_fFov(60),
+m_fRatio(1.0f),
+m_fCustomRatio(1.0f),
+m_bCustomProj(false),
+m_bCustomRatio(false),
+m_bProjDirty(true),
+m_rViewport(Ratio2D(0.0f, 0.0f), Ratio2D(1.0f, 1.0f)),
+m_ResizeHandler(INVALID_EVENTID)
 {
 	m_mView = LookAt(Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 0.0f, -1.0f), Vector3f(0.0f, 1.0f, 0.0f));
-	m_mProj = Perspective(60.0f, 1.0f, 1.0f, 1000.0f);
+
+	OnResize(QymEngineInstance::GetResolution());
+	GetProjM();
+
+	m_ResizeHandler = QymEventUtil<Size2D>::Listen(std::bind(&QymCamera::OnResize, this, std::placeholders::_1));
+}
+
+QymCamera::~QymCamera()
+{
+	QymEventUtil<Size2D>::Remove(m_ResizeHandler);
+}
+
+void QymCamera::OnResize(const Size2D resolution)
+{
+	this->m_fRatio = (float)resolution.X / (float)resolution.Y;
+	this->SetProjDirty();
 }
 
 Matrix4x4f QymCamera::GetViewM() {
@@ -26,6 +68,31 @@ Matrix4x4f QymCamera::GetViewM() {
 
 	m_mView = LookAt(newEyePos3, newTargetPos3, newUpDir3);
 	return m_mView;
+}
+
+Math::Matrix4x4f QymCamera::GetProjM()
+{
+	if (m_bProjDirty)
+	{
+		if (m_bCustomProj)
+			m_mProj = m_mCustomProj;
+		else
+		{
+			float ratio = GetRatio();
+			if (m_bOrthogonalProj)
+				m_mProj = Math::Ortho(-m_fOrthoSize * ratio, m_fOrthoSize * ratio, -m_fOrthoSize, m_fOrthoSize, m_vNearFar[0], m_vNearFar[1]);
+			else
+				m_mProj = Math::Perspective(m_fFov, ratio, m_vNearFar[0], m_vNearFar[1]);
+		}
+		m_bProjDirty = false;
+	}
+
+	return m_mProj;
+}
+
+float QymCamera::GetRatio()
+{
+	return m_bCustomRatio ? m_fCustomRatio : m_fRatio;
 }
 
 void QymCamera::RenderScene(const QymScene & _scene) {
@@ -40,7 +107,7 @@ void QymCamera::RenderScene(const QymScene & _scene) {
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 		glDrawBuffer(GL_BACK);
 
-		auto resolution = QymEngineInstance::Resolution();
+		auto resolution = QymEngineInstance::GetResolution();
 		GLint _X = 0;
 		GLint _Y = 0;
 		GLint _W = static_cast<GLint>(resolution.X);

@@ -2,6 +2,7 @@
 #include "Windows.h"
 #include "Common/QymCommonHeader.h"
 #include "Math/QymMath.h"
+#include <vector>
 
 // 使用方法见QymEngineDemo项目
 namespace QymEngine {
@@ -14,7 +15,10 @@ namespace QymEngine {
 		static void SetVSync(bool enable);
 		static void Present();
 
-		static Math::Size2D Resolution();
+		static void SetResolution(Math::Size2D newSize);
+		static Math::Size2D GetResolution();
+
+		static void HandleResize(Math::Size2D newSize);
 
 	private:
 		static HWND m_hWnd;

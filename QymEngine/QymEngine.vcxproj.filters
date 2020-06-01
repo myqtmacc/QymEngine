@@ -138,6 +138,9 @@
     <ClInclude Include="Common\QymCommonHeader.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="Utils\EventUtil.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\Builtin\look_up_table.ps">

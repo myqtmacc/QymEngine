@@ -85,8 +85,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>false</ConformanceMode>
       <AdditionalIncludeDirectories>.\;..\3rd-party\glew\include;..\3rd-party\glew\glew-1.9.0-win64\glew-1.9.0\include;..\3rd-party\glm;..\3rd-party\stb;..\3rd-party\tinyobjloader;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>
-      </LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
       <PreprocessorDefinitions>QYM_ENGINE_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
@@ -170,6 +169,7 @@
     <ClInclude Include="Texture\QymRenderTexture.h" />
     <ClInclude Include="Texture\QymTexture.h" />
     <ClInclude Include="Utils\CharacterTools.h" />
+    <ClInclude Include="Utils\EventUtil.h" />
     <ClInclude Include="Utils\IOTools.h" />
     <ClInclude Include="Utils\pathtools.h" />
     <ClInclude Include="Utils\StopWatch.h" />

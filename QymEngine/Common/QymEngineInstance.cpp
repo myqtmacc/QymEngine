@@ -1,5 +1,6 @@
 #include "Common/QymEngineInstance.h"
 #include "Common/QymCommonHeader.h"
+#include "Utils/EventUtil.h"
 
 using namespace QymEngine;
 using namespace QymEngine::Math;
@@ -94,9 +95,20 @@ void QymEngineInstance::Destroy()
 	}
 }
 
-Size2D QymEngineInstance::Resolution()
+Size2D QymEngineInstance::GetResolution()
 {
 	return m_Resolution;
+}
+
+void QymEngineInstance::SetResolution(Math::Size2D newSize)
+{
+	// TODO
+}
+
+void QymEngineInstance::HandleResize(Math::Size2D size)
+{
+	m_Resolution = size;
+	QymEventUtil<Math::Size2D>::Send(m_Resolution);
 }
 
 void QymEngineInstance::SetVSync(bool enable)
