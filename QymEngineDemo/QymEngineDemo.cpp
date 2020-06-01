@@ -46,8 +46,8 @@ window_callback(HWND window, UINT msg, WPARAM wparam, LPARAM lparam)
 		break;
 	case WM_SIZE:
 	{
-		size_t width = LOWORD(lparam);
-		size_t height = HIWORD(lparam);
+		int width = LOWORD(lparam);
+		int height = HIWORD(lparam);
 		QymEngineInstance::HandleResize({ width, height });
 	}
 		break;
@@ -124,6 +124,8 @@ WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd_line, int show)
 	{
 		return FALSE;
 	}
+
+	QymEngineInstance::SetResolution({640, 360});
 
 	QymEngineInstance::SetVSync(true);        
 

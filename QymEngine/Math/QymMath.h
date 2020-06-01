@@ -171,13 +171,13 @@ namespace QymEngine {
 
 		class DLL_EXPORT Size2D {
 		public:
-			size_t X;
-			size_t Y;
+			int64_t X;
+			int64_t Y;
 
 			Size2D() :X(0), Y(0) {};
-			Size2D(size_t x, size_t y) :X(x), Y(y) {};
+			Size2D(int64_t x, int64_t y) :X(x), Y(y) {};
 
-			Size2D(const Size2D &obj) :X(obj.X), Y(obj.Y) {};
+			Size2D(const Size2D &obj) = default;
 
 			Size2D operator + (const Size2D &other) const {
 				return Size2D(X + other.X, Y + other.Y);

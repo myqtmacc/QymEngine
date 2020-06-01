@@ -102,7 +102,16 @@ Size2D QymEngineInstance::GetResolution()
 
 void QymEngineInstance::SetResolution(Math::Size2D newSize)
 {
-	// TODO
+	RECT rect;
+	GetWindowRect(m_hWnd, &rect);
+
+	Size2D delta = newSize - m_Resolution;
+	int X = static_cast<int>(rect.left - delta.X / 2);
+	int Y = static_cast<int>(rect.top - delta.Y / 2);
+	int nWidth = static_cast<int>(rect.right - rect.left + delta.X);
+	int nHeight = static_cast<int>(rect.bottom - rect.top + delta.Y);
+
+	MoveWindow(m_hWnd, X, Y, nWidth, nHeight, TRUE);
 }
 
 void QymEngineInstance::HandleResize(Math::Size2D size)
